@@ -16,24 +16,25 @@ import com.coursework.curling.Curling;
 
 public class GameScreen implements Screen {
 
+    private static final float FIELD_WIDTH = 450;
+    private static final float FIELD_HEIGHT = 4500;
+
     private Curling game;
     private Texture car;
     private OrthographicCamera camera;
-    private Viewport viewport;
 
     public GameScreen (Curling game) {
 
         this.game = game;
         car = new Texture("back.jpg");
-        camera = new OrthographicCamera();
-        viewport = new FillViewport(450 , 4500, camera);
-        viewport.apply();
+
+
+
     }
 
 
     @Override
     public void show() {
-        camera.position.set(viewport.getWorldWidth() / 2 , camera.viewportHeight / 2 , 0);
 
     }
 
@@ -43,18 +44,22 @@ public class GameScreen implements Screen {
         Gdx.gl.glClearColor(1,1,1,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        camera.position.set(camera.position.x, camera.position.y + 2, 0);
         camera.update();
 
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
-        game.batch.draw(car, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
+        game.batch.draw(car, 0, 0, FIELD_WIDTH, FIELD_HEIGHT);
         game.batch.end();
     }
 
     @Override
     public void resize(int width, int height) {
-        viewport.update(width,height);
+        float ratio = (float)Gdx.graphics.getWidth() / Gdx.graphics.getHeight();
 
+        camera = new OrthographicCamera(FIELD_WIDTH, FIELD_WIDTH / ratio);
+        camera.position.set(FIELD_WIDTH / 2, camera.viewportHeight / 2, 0);
+        camera.update();
     }
 
     @Override
