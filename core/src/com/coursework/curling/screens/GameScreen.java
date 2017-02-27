@@ -11,6 +11,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -19,21 +21,25 @@ import com.coursework.curling.common.Constants;
 import com.coursework.curling.models.Entity;
 import com.coursework.curling.models.PhysicalEntity;
 import com.coursework.curling.states.StateManager;
-import com.sun.tools.internal.jxc.ap.Const;
 
 
 public class GameScreen implements Screen {
 
+    private World world;
+    private Box2DDebugRenderer debugRenderer;
     private Curling game;
     private StateManager stateManager;
+    private OrthographicCamera camera;
 
 
     public GameScreen(Curling game) {
 
         this.game = game;
-        this.stateManager = new StateManager(this.game);
+        world = new World(new Vector2(0,0), false);
 
-
+        this.stateManager = new StateManager(this.game, this.world);
+        this.debugRenderer = new Box2DDebugRenderer();
+        this.camera = new OrthographicCamera();
     }
 
 
@@ -48,6 +54,7 @@ public class GameScreen implements Screen {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        debugRenderer.render(world, camera.combined);
         this.stateManager.render(dt);
 
     }

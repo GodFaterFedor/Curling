@@ -27,6 +27,14 @@ public class Curling extends Game {
 	
 	@Override
 	public void dispose () {
+
 		batch.dispose();
 	}
+
+	public SpriteBatch getBatch() {
+		return batch;
+	}
+
+
+
 }

@@ -2,11 +2,12 @@ package com.coursework.curling.states;
 
 
 import com.badlogic.gdx.Game;
+import com.coursework.curling.Curling;
 
 public class StartState extends State {
 
 
-    public StartState(Game game) {
+    public StartState(Curling game) {
         super(game);
     }
     @Override

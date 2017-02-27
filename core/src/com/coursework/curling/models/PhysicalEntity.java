@@ -3,40 +3,33 @@ package com.coursework.curling.models;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 
 public class PhysicalEntity extends Entity {
 
-    private Vector2 velocity;
+    private Body body;
 
     public PhysicalEntity(Sprite sprite) {
         super(sprite);
-        velocity = new Vector2(0,0);
     }
 
     public PhysicalEntity(Sprite sprite, float width, float height) {
         super(sprite, width, height);
-        velocity = new Vector2(0,0);
 
     }
 
     public PhysicalEntity(Sprite sprite, float width, float height, float x, float y) {
         super(sprite, width, height, x, y);
-        velocity = new Vector2(0,0);
 
     }
 
-    public void setVelocity(Vector2 velocity) {
-        this.velocity = velocity;
+    public void setBody(Body body) {
+
+        this.body = body;
     }
 
-    public void applyVelocity(float delta) {
-
-
-        float dx = velocity.x * delta;
-        float dy = velocity.y * delta;
-
-        move(dx, dy);
-
-
+    public Body getBody() {
+        return body;
     }
+
 }
