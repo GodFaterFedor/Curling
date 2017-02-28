@@ -37,9 +37,17 @@ public class GameScreen implements Screen {
         this.game = game;
         world = new World(new Vector2(0,0), false);
 
-        this.stateManager = new StateManager(this.game, this.world);
+        float aspect = (float) Gdx.graphics.getWidth() / Gdx.graphics.getHeight();
+        float width = Constants.FIELD_WIDTH;
+        float height = Constants.FIELD_WIDTH / aspect;
+
+        this.camera = new OrthographicCamera(width, height);
+        this.camera.position.set(this.camera.viewportWidth / 2, this.camera.viewportHeight / 2,0);
+        this.camera.update();
+
+        this.stateManager = new StateManager(this.game, this.world, this.camera);
         this.debugRenderer = new Box2DDebugRenderer();
-        this.camera = new OrthographicCamera();
+
     }
 
 
@@ -54,14 +62,24 @@ public class GameScreen implements Screen {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        world.step(dt, 8, 3);
         debugRenderer.render(world, camera.combined);
+        game.getBatch().setProjectionMatrix(camera.combined);
         this.stateManager.render(dt);
 
     }
 
     @Override
     public void resize(int width, int height) {
-
+//        float aspect = (float) width / height;
+//
+//        float cameraWidth = Constants.FIELD_WIDTH;
+//        float cameraHeigth = Constants.FIELD_WIDTH / aspect;
+//
+//
+//        this.camera = new OrthographicCamera(cameraWidth, cameraHeigth);
+//        this.camera.position.set(0,0,0);
+//        this.camera.update();
     }
 
     @Override

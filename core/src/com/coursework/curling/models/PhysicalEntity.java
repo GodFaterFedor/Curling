@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 
+import java.lang.reflect.Field;
+
 public class PhysicalEntity extends Entity {
 
     private Body body;
