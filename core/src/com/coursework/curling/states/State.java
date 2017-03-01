@@ -3,24 +3,25 @@ package com.coursework.curling.states;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.physics.box2d.World;
 import com.coursework.curling.Curling;
 import com.coursework.curling.models.PhysicalEntity;
+import com.coursework.curling.screens.GameScreen;
 
 import java.util.ArrayList;
 
 public abstract class State implements InputProcessor {
 
-    protected Camera camera;
-    protected Curling game;
+    protected GameScreen screen;
     protected ArrayList<PhysicalEntity> stones;
 
     public abstract void update(float dt);
     public abstract void render(float dt);
 
-    public  State(Curling game) {
-
-        this.game = game;
+    public  State(GameScreen screen) {
+        this.screen = screen;
     }
 
     public void dispose(){
@@ -33,14 +34,6 @@ public abstract class State implements InputProcessor {
 
     public ArrayList<PhysicalEntity> getStones(){
         return stones;
-    }
-
-    private void setCamera(Camera camera) {
-        this.camera = camera;
-    }
-
-    private Camera getCamera() {
-        return camera;
     }
 
     @Override

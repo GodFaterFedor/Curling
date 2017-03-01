@@ -27,14 +27,14 @@ public class GameScreen implements Screen {
 
     private World world;
     private Box2DDebugRenderer debugRenderer;
-    private Curling game;
+
     private StateManager stateManager;
     private OrthographicCamera camera;
 
 
-    public GameScreen(Curling game) {
+    public GameScreen() {
 
-        this.game = game;
+
         world = new World(new Vector2(0,0), false);
 
         float aspect = (float) Gdx.graphics.getWidth() / Gdx.graphics.getHeight();
@@ -45,11 +45,18 @@ public class GameScreen implements Screen {
         this.camera.position.set(this.camera.viewportWidth / 2, this.camera.viewportHeight / 2,0);
         this.camera.update();
 
-        this.stateManager = new StateManager(this.game, this.world, this.camera);
+        this.stateManager = new StateManager(this);
         this.debugRenderer = new Box2DDebugRenderer();
 
     }
 
+    public World getWorld(){
+        return world;
+    }
+
+    public OrthographicCamera getCamera(){
+        return camera;
+    }
 
     @Override
     public void show() {
@@ -64,7 +71,7 @@ public class GameScreen implements Screen {
 
         world.step(dt, 8, 3);
         debugRenderer.render(world, camera.combined);
-        game.getBatch().setProjectionMatrix(camera.combined);
+        Curling.batch.setProjectionMatrix(camera.combined);
         this.stateManager.render(dt);
 
     }

@@ -10,14 +10,12 @@ import com.coursework.curling.screens.GameScreen;
 
 public class Curling extends Game {
 
-	private SpriteBatch batch;
+	public static SpriteBatch batch;
 
 	@Override
 	public void create () {
-
 		batch = new SpriteBatch();
-		setScreen(new GameScreen(this));
-
+		setScreen(new GameScreen());
 	}
 
 	@Override
