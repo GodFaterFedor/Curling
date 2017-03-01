@@ -33,13 +33,18 @@ public class StateManager {
         this.world = world;
         this.game = game;
         this.camera = camera;
-        state = new RunState(game);
+    }
+
+    public void setState(State state){
+        if (state != null)
+            this.state.dispose();          //empty
+        this.state = state;
         initMainStone();
         state.setStones(stones);
         state.camera = camera;
-
         Gdx.input.setInputProcessor(state);
     }
+
 
     private void initMainStone() {
 

@@ -23,6 +23,10 @@ public abstract class State implements InputProcessor {
         this.game = game;
     }
 
+    public void dispose(){
+
+    }
+
     public void setStones(ArrayList<PhysicalEntity> stones){
         this.stones = stones;
     }
