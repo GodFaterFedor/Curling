@@ -2,6 +2,7 @@ package com.coursework.curling.states;
 
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -16,17 +17,25 @@ import com.coursework.curling.common.Constants;
 import com.coursework.curling.models.PhysicalEntity;
 import com.coursework.curling.screens.GameScreen;
 
+import java.io.Console;
 import java.util.ArrayList;
 
 class RunState extends State {
 
+
     public RunState(GameScreen screen) {
         super(screen);
+        initMainStone();
+        //state.setStones(stones);
+        //state.camera = camera;
+        Gdx.input.setInputProcessor(this);
+        //setState(new RunState(game));
+
     }
 
     private void initMainStone() {
 
-        stones = new ArrayList<PhysicalEntity>();
+        stones = new ArrayList<PhysicalEntity>();//what is fuck
 
         Sprite sprite = new Sprite(new Texture("stone.png"));
         sprite.setSize(100,100);
@@ -78,7 +87,7 @@ class RunState extends State {
         float deltaX = coordinates.x - stone.getCenterX();
         float deltaY = coordinates.y - stone.getCenterY();
 
-        //stone.getBody().setLinearVelocity(deltaX, deltaY);
+        stone.getBody().setLinearVelocity(deltaX, deltaY);
         stone.getBody().applyForce(-deltaX * 40, -deltaY * 40, stone.getCenterX(), stone.getCenterY(), false);
 
         return super.touchUp(screenX, screenY, pointer, button);
