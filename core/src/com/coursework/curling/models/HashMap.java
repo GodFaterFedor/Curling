@@ -3,18 +3,16 @@ package com.coursework.curling.models;
 import java.util.Arrays;
 
 public class HashMap<K, V> {
-//    private final int BASE = 3967;
+
     private final int BASE = 37;
 
     private Node[] container;
     private int size = 0;
 
-    @SuppressWarnings("unchecked")
     public HashMap() {
         this.container = new Node[BASE];
     }
 
-    @SuppressWarnings("unchecked")
     public boolean put(K key, V value) {
         int position = key.hashCode() % BASE;
         Node<K, V> node = new Node<K, V>(key, value);
@@ -43,7 +41,6 @@ public class HashMap<K, V> {
         return true;
     }
 
-    @SuppressWarnings("unchecked")
     public V get(K key) {
         Node<K, V> node = this.container[key.hashCode() % BASE];
         while (node != null && node.key != key) {
@@ -52,12 +49,11 @@ public class HashMap<K, V> {
         return node != null ? node.value : null;
     }
 
-    @SuppressWarnings("unchecked")
     public boolean remove(K key) {
         int position = key.hashCode() % BASE;
         Node<K, V> node = this.container[position];
         Node<K, V> parent = null;
-        while (node != null && node.key != key) {
+        while (node != null && !node.key.equals(key)) {
             node = node.next;
             parent = node;
         }
@@ -100,9 +96,36 @@ public class HashMap<K, V> {
 
     @Override
     public String toString() {
-        return "HashMap{" +
-                "container=" + Arrays.toString(container) +
-                '}';
+
+        String string = "";
+
+        for (Node node : container) {
+            if (node != null) {
+                if (!string.equals("")) {
+                    string += ", ";
+                }
+                string += node.toString();
+            }
+        }
+
+        return string;
+    }
+
+    public String getKeys() {
+
+        String string = "";
+
+        for (Node node : container) {
+            if (node != null) {
+                if (!string.equals("")) {
+                    string += ", ";
+                }
+                string += node.getKey();
+            }
+        }
+
+        return string;
+
     }
 
     private static class Node<K, V> {
@@ -117,11 +140,18 @@ public class HashMap<K, V> {
 
         @Override
         public String toString() {
-            return "Node{" +
-                    "key=" + key +
-                    ", value=" + value +
-                    ", next=" + next +
-                    '}';
+
+            String string = key + ": " + value;
+            if (next != null) {
+                string += "next = " + next;
+            }
+
+            return string;
+
+        }
+
+        public String getKey() {
+            return key.toString();
         }
     }
 }

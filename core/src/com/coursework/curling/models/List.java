@@ -51,10 +51,13 @@ public class List<T extends Comparable<T>> {
 
     public void remove(int index) {
         Node node = findByIndex(index);
-        if (node.prev != null) {
+        if (node.prev == null) {
+            head = node.next;
+        } else if (node.next == null) {
+            node.prev.next = null;
+            tail = node.prev;
+        } else {
             node.prev.next = node.next;
-        }
-        if (node.next != null) {
             node.next.prev = node.prev;
         }
         this.size--;
@@ -95,6 +98,9 @@ public class List<T extends Comparable<T>> {
 
     private Node findByIndex(int index) {
         checkIndex(index);
+        if (size == 0) {
+            return null;
+        }
         Node iterator = this.head;
         while (index-- != 0) {
             iterator = iterator.next;
@@ -123,6 +129,11 @@ public class List<T extends Comparable<T>> {
 
     @Override
     public String toString() {
+
+        if (size == 0) {
+            return "empty";
+        }
+
         Node iterator = this.head;
         String result = "";
         while (iterator != null) {

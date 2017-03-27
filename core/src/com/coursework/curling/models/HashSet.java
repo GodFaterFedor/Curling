@@ -4,7 +4,12 @@ public class HashSet<T> {
     private HashMap<T, Object> container = new HashMap<T, Object>();
 
     public boolean add(T element) {
-        return container.put(element, null);
+
+        if (contains(element)) {
+            return false;
+        } else {
+            return container.put(element, null);
+        }
     }
 
     public boolean contains(T element) {
@@ -12,18 +17,29 @@ public class HashSet<T> {
     }
 
     public boolean remove(T element) {
-        return container.remove(element);
+
+        if (contains(element)) {
+            return container.remove(element);
+        } else {
+            return false;
+        }
     }
 
     public int size() {
         return container.size();
     }
 
-    public boolean isEmpry() {
+    public boolean isEmpty() {
         return container.isEmpty();
     }
 
     public void clear() {
         container.clear();
+    }
+
+    @Override
+    public String toString() {
+
+        return container.getKeys();
     }
 }
