@@ -43,7 +43,8 @@ public class StrikeState extends State {
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(x, y);                     //set position of sprite
+        bodyDef.position.set(x, y);
+        bodyDef.linearDamping = 0.5f;//set position of sprite
         Body body;
         body = screen.getWorld().createBody(bodyDef);
 
@@ -91,7 +92,7 @@ public class StrikeState extends State {
         float deltaY = coordinates.y - stone.getCenterY();
 
         stone.getBody().setLinearVelocity(deltaX, deltaY);
-        stone.getBody().applyForce(-deltaX * 40, -deltaY * 40, stone.getCenterX(), stone.getCenterY(), false);
+        //stone.getBody().applyForce(-deltaX * 40, -deltaY * 40, stone.getCenterX(), stone.getCenterY(), false);
 
         return super.touchUp(screenX, screenY, pointer, button);
     }
