@@ -45,6 +45,7 @@ public class StrikeState extends State {
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(x, y);
         bodyDef.linearDamping = 0.5f;//set position of sprite
+        bodyDef.angularDamping = 0.7f;
         Body body;
         body = screen.getWorld().createBody(bodyDef);
 
@@ -68,8 +69,10 @@ public class StrikeState extends State {
             //PhysicalEntity stone = s;
             Body body = stone.getBody();
             Sprite sprite = stone.getSprite();
+            sprite.setOriginCenter();
+            sprite.setRotation((180*body.getAngle())/3.14157f); 
 
-            sprite.setPosition(body.getPosition().x - sprite.getWidth() / 2, body.getPosition().y - sprite.getHeight() / 2);
+            sprite.setPosition( body.getPosition().x - sprite.getWidth() / 2, body.getPosition().y - sprite.getHeight() / 2);
         }
     }
 
