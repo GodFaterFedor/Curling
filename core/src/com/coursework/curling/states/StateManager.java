@@ -28,7 +28,7 @@ public class StateManager {
 
     public StateManager(GameScreen screen) {
         this.screen = screen;
-        this.state = new RunState(screen);
+        this.state = new StrikeState(screen);
         //initMainStone();
         //state.setStones(stones);
         //state.camera = camera;

@@ -30,7 +30,25 @@ public class Curling extends Game {
 	public void create () {
 		batch = new SpriteBatch();
 		setScreen(new GameScreen());
-
+		/*scanner = new Scanner(System.in);
+		while (true) {
+			switch (menu(MainMenu.class)) {
+				case LIST:
+					listMenu();
+					break;
+				case TREE_SET:
+					treeMenu();
+					break;
+				case HASH_SET:
+					setMenu();
+					break;
+				case HASH_MAP:
+					mapMenu();
+					break;
+				default:
+					return;
+			}
+		}*/
 	}
 
 	private static void mapMenu() {

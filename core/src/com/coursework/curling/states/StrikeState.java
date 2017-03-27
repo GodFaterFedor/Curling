@@ -1,9 +1,6 @@
 package com.coursework.curling.states;
 
-
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
@@ -13,17 +10,14 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.coursework.curling.Curling;
-import com.coursework.curling.common.Constants;
 import com.coursework.curling.models.PhysicalEntity;
 import com.coursework.curling.screens.GameScreen;
 
-import java.io.Console;
 import java.util.ArrayList;
 
-class RunState extends State {
+public class StrikeState extends State {
 
-
-    public RunState(GameScreen screen) {
+    public StrikeState(GameScreen screen) {
         super(screen);
         initMainStone();
         //state.setStones(stones);
@@ -34,47 +28,56 @@ class RunState extends State {
     }
 
     private void initMainStone() {
-
+        int size = 5;
         stones = new ArrayList<PhysicalEntity>();
+        for(int i = 0; i <= size; i++)
+            stones.add(initStone(i*20 + 40, 40));
+    }
 
+    private PhysicalEntity initStone(int x, int y){
         Sprite sprite = new Sprite(new Texture("stone.png"));
-        sprite.setSize(100,100);
+        sprite.setSize(20,20);
         PhysicalEntity stone = new PhysicalEntity(sprite);
 
-        BodyDef bodyDef = new BodyDef();
-        CircleShape shape = new CircleShape();
         FixtureDef fixtureDef = new FixtureDef();
-        Body body;
 
+        BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(0, 0);
-
+        bodyDef.position.set(x, y);                     //set position of sprite
+        Body body;
         body = screen.getWorld().createBody(bodyDef);
 
+
+        CircleShape shape = new CircleShape();
         shape.setRadius(sprite.getWidth() / 2);
-        shape.setPosition(new Vector2(0,0));
+        //shape.setPosition(new Vector2(x , y));
+
         fixtureDef.shape = shape;
+        fixtureDef.density = 1.0f;
+        fixtureDef.friction = .25f;
         body.createFixture(fixtureDef);
 
         stone.setBody(body);
-
-        stones.add(stone);
+        return stone;
     }
 
     @Override
     public void update(float dt) {
-        PhysicalEntity stone = stones.get(0);
-        Body body = stone.getBody();
-        Sprite sprite = stone.getSprite();
+        for (PhysicalEntity stone: stones) {
+            //PhysicalEntity stone = s;
+            Body body = stone.getBody();
+            Sprite sprite = stone.getSprite();
 
-        sprite.setPosition(body.getPosition().x - sprite.getWidth() / 2, body.getPosition().y - sprite.getHeight() / 2);
+            sprite.setPosition(body.getPosition().x - sprite.getWidth() / 2, body.getPosition().y - sprite.getHeight() / 2);
+        }
     }
 
     @Override
     public void render(float dt) {
 
         Curling.batch.begin();
-        stones.get(0).getSprite().draw(Curling.batch);
+        for (PhysicalEntity stone: stones)
+            stone.getSprite().draw(Curling.batch);
         Curling.batch.end();
     }
 
@@ -92,6 +95,4 @@ class RunState extends State {
 
         return super.touchUp(screenX, screenY, pointer, button);
     }
-
-
 }
