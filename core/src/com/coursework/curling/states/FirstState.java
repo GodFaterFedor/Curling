@@ -61,8 +61,6 @@ public class FirstState extends State {
 
         stone.getBody().setLinearVelocity(velocity.x, velocity.y);
         //stone.getBody().applyForce(-deltaX * 40, -deltaY * 40, stone.getCenterX(), stone.getCenterY(), false);
-        System.out.println(stone.getBody().getLinearVelocity().x);
-        System.out.println(stone.getBody().getLinearVelocity().y);
 
         return super.touchUp(screenX, screenY, pointer, button);
     }
@@ -74,6 +72,9 @@ public class FirstState extends State {
         Sprite sprite = stone.getSprite();
 
         sprite.setPosition(body.getPosition().x - sprite.getWidth() / 2, body.getPosition().y - sprite.getHeight() / 2);
+
+        System.out.println(stone.getCenterX());
+
     }
 
     @Override

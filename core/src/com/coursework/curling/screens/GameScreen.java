@@ -11,7 +11,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -49,6 +54,30 @@ public class GameScreen implements Screen {
         this.stateManager = new StateManager(this);
         this.debugRenderer = new Box2DDebugRenderer();
 
+        addBorder(-10, 0, 10, Constants.FIELD_HEIGHT);
+        addBorder(Constants.FIELD_WIDTH + 10, 0, 10, Constants.FIELD_HEIGHT);
+        addBorder(0, -10, Constants.FIELD_WIDTH, 10);
+        addBorder(0, Constants.FIELD_HEIGHT, Constants.FIELD_WIDTH, 10);
+
+    }
+
+    public void addBorder(float x, float y, float width, float heigth) {
+        FixtureDef fixtureDef = new FixtureDef();
+
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.StaticBody;
+        bodyDef.position.set(x, y);
+
+        Body body;
+        body = world.createBody(bodyDef);
+
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(width, heigth);
+
+        fixtureDef.shape = shape;
+        fixtureDef.restitution = 0.5f;
+
+        body.createFixture(fixtureDef);
     }
 
     public World getWorld(){
