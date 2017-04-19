@@ -14,26 +14,17 @@ import java.util.ArrayList;
 
 public abstract class State implements InputProcessor {
 
-    protected GameScreen screen;
-    protected ArrayList<PhysicalEntity> stones;
+    protected StateManager manager;
 
     public abstract void update(float dt);
     public abstract void render(float dt);
 
-    public  State(GameScreen screen) {
-        this.screen = screen;
+    public  State(StateManager manager) {
+        this.manager = manager;
     }
 
     public void dispose(){
 
-    }
-
-    public void setStones(ArrayList<PhysicalEntity> stones){
-        this.stones = stones;
-    }
-
-    public ArrayList<PhysicalEntity> getStones(){
-        return stones;
     }
 
     @Override

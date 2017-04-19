@@ -30,10 +30,11 @@ public class GameScreen implements Screen {
 
     private StateManager stateManager;
     private OrthographicCamera camera;
-
+    private Texture background;
 
     public GameScreen() {
 
+        background = new Texture("background.png");
 
         world = new World(new Vector2(0,0), false);
 
@@ -65,13 +66,16 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float dt) {
-
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         world.step(dt, 8, 3);
         debugRenderer.render(world, camera.combined);
         Curling.batch.setProjectionMatrix(camera.combined);
+
+        Curling.batch.begin();
+        Curling.batch.draw(background, 0, 0, Constants.FIELD_WIDTH, Constants.FIELD_HEIGHT);
+        Curling.batch.end();
         this.stateManager.render(dt);
 
     }

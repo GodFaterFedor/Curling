@@ -25,10 +25,12 @@ public class StateManager {
 
     private GameScreen screen;
     private State state;
+    private ArrayList<PhysicalEntity> stones;
 
     public StateManager(GameScreen screen) {
+        stones = new ArrayList<PhysicalEntity>();
         this.screen = screen;
-        this.state = new StrikeState(screen);
+        this.state = new FirstState(this);
         //initMainStone();
         //state.setStones(stones);
         //state.camera = camera;
@@ -36,11 +38,16 @@ public class StateManager {
         //setState(new RunState(game));
     }
 
-
-
-
     public void render(float dt) {
         state.update(dt);
         state.render(dt);
+    }
+
+    public GameScreen getScreen() {
+        return screen;
+    }
+
+    public ArrayList<PhysicalEntity> getStones() {
+        return stones;
     }
 }
