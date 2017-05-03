@@ -10,9 +10,10 @@ import com.coursework.curling.Curling;
 import com.coursework.curling.models.PhysicalEntity;
 import com.coursework.curling.screens.GameScreen;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public abstract class State implements InputProcessor {
+public abstract class State implements InputProcessor, Serializable {
 
     protected StateManager manager;
 

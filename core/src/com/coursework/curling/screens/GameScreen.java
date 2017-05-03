@@ -18,6 +18,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -25,7 +26,19 @@ import com.coursework.curling.Curling;
 import com.coursework.curling.common.Constants;
 import com.coursework.curling.models.Entity;
 import com.coursework.curling.models.PhysicalEntity;
+import com.coursework.curling.models.SavedObject;
 import com.coursework.curling.states.StateManager;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.util.ArrayList;
+
+import javax.naming.Context;
 
 
 public class GameScreen implements Screen {
@@ -52,6 +65,7 @@ public class GameScreen implements Screen {
         this.camera.update();
 
         this.stateManager = new StateManager(this);
+
         this.debugRenderer = new Box2DDebugRenderer();
 
         addBorder(-10, 0, 10, Constants.FIELD_HEIGHT);
@@ -125,6 +139,7 @@ public class GameScreen implements Screen {
     @Override
     public void pause() {
 
+        stateManager.saveToFile();
     }
 
     @Override

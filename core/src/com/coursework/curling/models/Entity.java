@@ -2,6 +2,8 @@ package com.coursework.curling.models;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
+import java.io.Serializable;
+
 public class Entity {
 
     protected Sprite sprite;

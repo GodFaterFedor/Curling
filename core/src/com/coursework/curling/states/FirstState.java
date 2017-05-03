@@ -23,7 +23,7 @@ public class FirstState extends State {
         super(manager);
         Gdx.input.setInputProcessor(this);
 
-        stone = PhysicalEntity.create(100, 100, Constants.STONE_SIZE, Constants.STONE_SIZE, "stone.png", manager.getScreen());
+        //stone = PhysicalEntity.create(100, 100, Constants.STONE_SIZE, Constants.STONE_SIZE, "stone.png", manager.getScreen());
     }
 
     @Override
@@ -73,7 +73,6 @@ public class FirstState extends State {
 
         sprite.setPosition(body.getPosition().x - sprite.getWidth() / 2, body.getPosition().y - sprite.getHeight() / 2);
 
-        System.out.println(stone.getCenterX());
 
     }
 
@@ -83,5 +82,9 @@ public class FirstState extends State {
         Curling.batch.begin();
         stone.getSprite().draw(Curling.batch);
         Curling.batch.end();
+    }
+
+    public void setStone(PhysicalEntity stone) {
+        this.stone = stone;
     }
 }
