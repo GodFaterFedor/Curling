@@ -34,13 +34,16 @@ import java.util.ArrayList;
 
 public class StateManager {
 
+    private static StateManager instance;
+
     private transient GameScreen screen;
     private State state;
     private ArrayList<PhysicalEntity> stones;
 
-    public StateManager(GameScreen screen) {
+    private StateManager() {
+    }
+    public void start() {
         stones = new ArrayList<PhysicalEntity>();
-        this.screen = screen;
         FirstState state = new FirstState(this);
         loadFromFile();
 
@@ -49,12 +52,14 @@ public class StateManager {
         }
         state.setStone(stones.get(0));
         this.state = state;
+    }
 
-        //initMainStone();
-        //state.setStones(stones);
-        //state.camera = camera;
-        //Gdx.input.setInputProcessor(state);
-        //setState(new RunState(game));
+    public static synchronized StateManager getInstance() {
+
+        if (instance == null) {
+            instance = new StateManager();
+        }
+        return instance;
     }
 
     public void loadFromFile() {

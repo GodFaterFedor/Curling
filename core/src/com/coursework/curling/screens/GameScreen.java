@@ -64,7 +64,9 @@ public class GameScreen implements Screen {
         this.camera.position.set(this.camera.viewportWidth / 2, this.camera.viewportHeight / 2,0);
         this.camera.update();
 
-        this.stateManager = new StateManager(this);
+        stateManager = StateManager.getInstance();
+        stateManager.setScreen(this);
+        stateManager.start();
 
         this.debugRenderer = new Box2DDebugRenderer();
 
