@@ -17,8 +17,8 @@ public abstract class State implements InputProcessor, Serializable {
 
     protected StateManager manager;
 
-    public abstract void update(float dt);
-    public abstract void render(float dt);
+    public abstract void update(float dt, ArrayList<PhysicalEntity> stones);
+    public abstract void render(float dt, ArrayList<PhysicalEntity> stones);
 
     public  State(StateManager manager) {
         this.manager = manager;
@@ -26,6 +26,13 @@ public abstract class State implements InputProcessor, Serializable {
 
     public void dispose(){
 
+    }
+
+    public String getName(){
+        return "state";
+    }
+
+    public void setStone(PhysicalEntity stone) {
     }
 
     @Override

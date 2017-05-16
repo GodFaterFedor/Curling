@@ -12,12 +12,14 @@ import com.coursework.curling.models.PhysicalEntity;
 import com.coursework.curling.screens.GameScreen;
 
 import java.io.Console;
+import java.util.ArrayList;
 
 public class FirstState extends State {
 
     private PhysicalEntity stone;
     private Vector3 velocity;
     private float deltaTime;
+
 
     public FirstState(StateManager manager) {
         super(manager);
@@ -66,21 +68,30 @@ public class FirstState extends State {
     }
 
     @Override
-    public void update(float dt) {
-        deltaTime = dt;
-        Body body = stone.getBody();
-        Sprite sprite = stone.getSprite();
-
-        sprite.setPosition(body.getPosition().x - sprite.getWidth() / 2, body.getPosition().y - sprite.getHeight() / 2);
-
-
+    public String getName(){
+        return "first";
     }
 
     @Override
-    public void render(float dt) {
+    public void update(float dt, ArrayList<PhysicalEntity> stones) {
+        deltaTime = dt;
+        for (PhysicalEntity stone: stones) {
+            Body body = stone.getBody();
+            Sprite sprite = stone.getSprite();
+
+            sprite.setPosition(body.getPosition().x - sprite.getWidth() / 2, body.getPosition().y - sprite.getHeight() / 2);
+        }
+//        sprite.setOriginCenter();
+//        sprite.setRotation((180*body.getAngle())/3.14157f);
+    }
+
+    @Override
+    public void render(float dt, ArrayList<PhysicalEntity> stones) {
 
         Curling.batch.begin();
-        stone.getSprite().draw(Curling.batch);
+        for (PhysicalEntity s: stones) {
+            s.getSprite().draw(Curling.batch);
+        }
         Curling.batch.end();
     }
 

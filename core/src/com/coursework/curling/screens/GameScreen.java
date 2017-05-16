@@ -61,7 +61,7 @@ public class GameScreen implements Screen {
         float height = Constants.FIELD_WIDTH / aspect;
 
         this.camera = new OrthographicCamera(width, height);
-        this.camera.position.set(this.camera.viewportWidth / 2, this.camera.viewportHeight / 2,0);
+        this.camera.position.set(this.camera.viewportWidth / 2, 370 + this.camera.viewportHeight / 2,0);
         this.camera.update();
 
         stateManager = StateManager.getInstance();
