@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.coursework.curling.common.Constants;
 import com.coursework.curling.screens.GameScreen;
 
 import java.lang.reflect.Field;
@@ -26,8 +27,8 @@ public class PhysicalEntity extends Entity {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(x, y);
-        bodyDef.linearDamping = 0.3f;//set position of sprite
-        bodyDef.angularDamping = 0.7f;
+        bodyDef.linearDamping = Constants.LINEAR_DAMPING;
+        bodyDef.angularDamping = Constants.ANGULAR_DAMPING;
         Body body;
         body = screen.getWorld().createBody(bodyDef);
 

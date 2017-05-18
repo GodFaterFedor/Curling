@@ -25,6 +25,7 @@ class RunState extends State {
     private PhysicalEntity stone;
     private Vector3 velocity;
     private float deltaTime;
+    private Vector3 lastTouchPosition;
 
 
     public RunState(StateManager manager) {
@@ -39,12 +40,44 @@ class RunState extends State {
 
     private boolean isStoneInRange(PhysicalEntity stone) {
 
-        return stone.getBody().getPosition().y < 410;
+        return stone.getBody().getPosition().y < Constants.RUN_STATE_BORDER;
     }
 
     private boolean isGoodSpeed(PhysicalEntity stone) {
         return stone.getBody().getLinearVelocity().x > Constants.MINIMAL_RUN_STATE_SPEED ||
                 stone.getBody().getLinearVelocity().y > Constants.MINIMAL_RUN_STATE_SPEED;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        Vector3 coordinates = manager.getScreen().getCamera().unproject(new Vector3(screenX, screenY, 0));
+        lastTouchPosition = coordinates;
+        return false;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        lastTouchPosition = null;
+        getLastStone().getBody().setLinearDamping(Constants.LINEAR_DAMPING);
+
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+
+        Vector3 coordinates = manager.getScreen().getCamera().unproject(new Vector3(screenX, screenY, 0));
+        if ((Math.abs(getLastStone().getBody().getPosition().x - coordinates.x)) < 10 &&
+                coordinates.y - getLastStone().getBody().getPosition().y < 30 &&
+                coordinates.y - getLastStone().getBody().getPosition().y > 0) {
+
+            getLastStone().getBody().setLinearDamping(0);
+        } else {
+            getLastStone().getBody().setLinearDamping(Constants.LINEAR_DAMPING);
+        }
+
+            return false;
+
     }
 
     @Override
@@ -65,10 +98,9 @@ class RunState extends State {
         manager.getScreen().getCamera().update();
 
         if (!isStoneInRange(getLastStone()) || !isGoodSpeed(getLastStone())) {
+            getLastStone().getBody().setLinearDamping(Constants.LINEAR_DAMPING);
             manager.setStrikeState();
         }
-
-
 
     }
 

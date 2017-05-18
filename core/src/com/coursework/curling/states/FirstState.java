@@ -76,7 +76,7 @@ public class FirstState extends State {
 
     private boolean isStoneInRange(PhysicalEntity stone) {
 
-        return stone.getBody().getPosition().y < 70;
+        return stone.getBody().getPosition().y < Constants.FIRST_STATE_BORDER;
     }
 
     @Override
