@@ -7,4 +7,6 @@ public final class Constants {
     public static final float STONE_SIZE = 6;
     public static final float SPEED_MULTIPLIER = 0.5f;
 
+    public static final float MINIMAL_RUN_STATE_SPEED = 10f;
+
 }

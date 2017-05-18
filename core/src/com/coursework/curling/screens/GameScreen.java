@@ -73,7 +73,7 @@ public class GameScreen implements Screen {
         addBorder(-10, 0, 10, Constants.FIELD_HEIGHT);
         addBorder(Constants.FIELD_WIDTH + 10, 0, 10, Constants.FIELD_HEIGHT);
         addBorder(0, -10, Constants.FIELD_WIDTH, 10);
-        addBorder(0, Constants.FIELD_HEIGHT, Constants.FIELD_WIDTH, 10);
+        addBorder(0, Constants.FIELD_HEIGHT + 10, Constants.FIELD_WIDTH, 10);
 
     }
 

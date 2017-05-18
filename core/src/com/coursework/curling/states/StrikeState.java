@@ -33,23 +33,41 @@ public class StrikeState extends State {
 
 
     @Override
-    public void update(float dt, ArrayList<PhysicalEntity> stones) {
+    public void update(float dt) {
         deltaTime = dt;
-        for (PhysicalEntity stone: stones) {
+        boolean stopped = true;
+
+        for (PhysicalEntity stone: manager.getStones()) {
             Body body = stone.getBody();
             Sprite sprite = stone.getSprite();
 
+            if (!body.getLinearVelocity().epsilonEquals(0f, 0f, 1f)) {
+                stopped = false;
+            }
             sprite.setPosition(body.getPosition().x - sprite.getWidth() / 2, body.getPosition().y - sprite.getHeight() / 2);
+            sprite.setOriginCenter();
+            sprite.setRotation((float) (180 * body.getAngle() / Math.PI));
+
         }
+
+        if (getLastStone().getBody().getPosition().y < Constants.FIELD_HEIGHT - manager.getScreen().getCamera().viewportHeight / 2) {
+            manager.getScreen().getCamera().position.y = getLastStone().getBody().getPosition().y;
+            manager.getScreen().getCamera().update();
+        }
+
+        if (stopped) {
+            manager.addStone();
+        }
+
 //        sprite.setOriginCenter();
 //        sprite.setRotation((180*body.getAngle())/3.14157f);
     }
 
     @Override
-    public void render(float dt, ArrayList<PhysicalEntity> stones) {
+    public void render(float dt) {
 
         Curling.batch.begin();
-        for (PhysicalEntity s: stones) {
+        for (PhysicalEntity s: manager.getStones()) {
             s.getSprite().draw(Curling.batch);
         }
         Curling.batch.end();

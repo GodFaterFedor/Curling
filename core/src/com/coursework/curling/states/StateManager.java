@@ -54,16 +54,15 @@ public class StateManager {
 //        loadFromFile();
 
 
-        stones.add(PhysicalEntity.create(22, 450, Constants.STONE_SIZE, Constants.STONE_SIZE, "stone.png", screen));
+        stones.add(PhysicalEntity.create(22, 450, Constants.STONE_SIZE, Constants.STONE_SIZE, "stone_red.png", screen));
 
         int last = stones.size() - 1;
         stones.get(last).getBody().setLinearVelocity(0, 0);
-        stones.get(last).getBody().setTransform(22.5f, 450, stones.get(0).getBody().getAngle());
+        stones.get(last).getBody().setTransform(22.5f, 20, 0);
 
         state.setStone(stones.get(last));
 
-        screen.getCamera().position.set(this.screen.getCamera().viewportWidth / 2, 370 + this.screen.getCamera().viewportHeight / 2,0);
-        screen.getCamera().update();
+
         this.state = state;
     }
 
@@ -157,17 +156,25 @@ public class StateManager {
 //                entity = PhysicalEntity.create((int)entity.getX(), (int)entity.getY(), entity.getWidth(), entity.getHeight(), "stone.png", screen);
 //            }
 //        }
-        if ((stones.get(stones.size() - 1).getBody().getPosition().y < 380) && (stones.get(stones.size() - 1).getBody().getPosition().y > 40) && (this.state.getName() != "run")) {
-            this.setState(new RunState(this));
-        }
-        if ((stones.get(stones.size() - 1).getBody().getPosition().y < 40 && (stones.get(stones.size() - 1).getBody().getPosition().y > 0) && (this.state.getName() != "strike"))){
-            this.setState(new StrikeState(this));
-        }
-        if (stones.get(stones.size() - 1).getBody().getLinearVelocity().epsilonEquals(0f, 0f, 0.1f) && (this.state.getName() != "first")) {
-            addStone();
-        }
-        state.update(dt, stones);
-        state.render(dt, stones);
+//        if ((stones.get(stones.size() - 1).getBody().getPosition().y < 380) && (stones.get(stones.size() - 1).getBody().getPosition().y > 40) && (this.state.getName() != "run")) {
+//            this.setState(new RunState(this));
+//        }
+//        if ((stones.get(stones.size() - 1).getBody().getPosition().y < 40 && (stones.get(stones.size() - 1).getBody().getPosition().y > 0) && (this.state.getName() != "strike"))){
+//            this.setState(new StrikeState(this));
+//        }
+//        if (stones.get(stones.size() - 1).getBody().getLinearVelocity().epsilonEquals(0f, 0f, 1f) && (this.state.getName() != "first")) {
+//            addStone();
+//        }
+        state.update(dt);
+        state.render(dt);
+    }
+
+    public void setRunState() {
+        this.setState(new RunState(this));
+    }
+
+    public void setStrikeState() {
+        this.setState(new StrikeState(this));
     }
 
     public GameScreen getScreen() {

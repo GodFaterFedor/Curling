@@ -39,7 +39,6 @@ public class PhysicalEntity extends Entity {
         fixtureDef.density = 1.0f;
         fixtureDef.friction = .25f;
         body.createFixture(fixtureDef);
-
         stone.setBody(body);
         return stone;
     }

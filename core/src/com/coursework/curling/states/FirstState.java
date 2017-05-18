@@ -26,6 +26,8 @@ public class FirstState extends State {
         Gdx.input.setInputProcessor(this);
 
         //stone = PhysicalEntity.create(100, 100, Constants.STONE_SIZE, Constants.STONE_SIZE, "stone.png", manager.getScreen());
+        manager.getScreen().getCamera().position.set(manager.getScreen().getCamera().viewportWidth / 2, manager.getScreen().getCamera().viewportHeight / 2,0);
+        manager.getScreen().getCamera().update();
     }
 
     @Override
@@ -72,24 +74,36 @@ public class FirstState extends State {
         return "first";
     }
 
+    private boolean isStoneInRange(PhysicalEntity stone) {
+
+        return stone.getBody().getPosition().y < 70;
+    }
+
     @Override
-    public void update(float dt, ArrayList<PhysicalEntity> stones) {
+    public void update(float dt) {
+
+        ArrayList<PhysicalEntity> stones = manager.getStones();
         deltaTime = dt;
         for (PhysicalEntity stone: stones) {
             Body body = stone.getBody();
             Sprite sprite = stone.getSprite();
 
             sprite.setPosition(body.getPosition().x - sprite.getWidth() / 2, body.getPosition().y - sprite.getHeight() / 2);
+            sprite.setOriginCenter();
+            sprite.setRotation((float) (180 * body.getAngle() / Math.PI));
+        }
+        if (!isStoneInRange(stones.get(stones.size() - 1)) && !Gdx.input.isTouched()) {
+            manager.setRunState();
         }
 //        sprite.setOriginCenter();
 //        sprite.setRotation((180*body.getAngle())/3.14157f);
     }
 
     @Override
-    public void render(float dt, ArrayList<PhysicalEntity> stones) {
+    public void render(float dt) {
 
         Curling.batch.begin();
-        for (PhysicalEntity s: stones) {
+        for (PhysicalEntity s: manager.getStones()) {
             s.getSprite().draw(Curling.batch);
         }
         Curling.batch.end();
