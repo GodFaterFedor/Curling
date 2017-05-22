@@ -192,4 +192,11 @@ public class StateManager {
     public void setStones(ArrayList<PhysicalEntity> stones) {
         this.stones = stones;
     }
+
+    public int getSpeed() {
+        float x = stones.get(stones.size() - 1).getBody().getLinearVelocity().x;
+        float y = stones.get(stones.size() - 1).getBody().getLinearVelocity().y;
+
+        return (int)Math.sqrt(x*x + y*y);
+    }
 }

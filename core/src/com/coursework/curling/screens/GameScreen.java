@@ -5,9 +5,11 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -25,8 +27,10 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.coursework.curling.Curling;
 import com.coursework.curling.common.Constants;
 import com.coursework.curling.models.Entity;
+import com.coursework.curling.models.Font;
 import com.coursework.curling.models.PhysicalEntity;
 import com.coursework.curling.models.SavedObject;
+import com.coursework.curling.scenes.Hud;
 import com.coursework.curling.states.StateManager;
 
 import java.io.File;
@@ -45,6 +49,7 @@ public class GameScreen implements Screen {
 
     private World world;
     private Box2DDebugRenderer debugRenderer;
+    private Hud hud;
 
     private StateManager stateManager;
     private OrthographicCamera camera;
@@ -55,6 +60,7 @@ public class GameScreen implements Screen {
         background = new Texture("background.png");
 
         world = new World(new Vector2(0,0), false);
+        hud = new Hud(Curling.batch);
 
         float aspect = (float) Gdx.graphics.getWidth() / Gdx.graphics.getHeight();
         float width = Constants.FIELD_WIDTH;
@@ -118,10 +124,26 @@ public class GameScreen implements Screen {
         debugRenderer.render(world, camera.combined);
         Curling.batch.setProjectionMatrix(camera.combined);
 
+        Font text = new Font(stateManager.getSpeed());
+
+
         Curling.batch.begin();
         Curling.batch.draw(background, 0, 0, Constants.FIELD_WIDTH, Constants.FIELD_HEIGHT);
         Curling.batch.end();
+
         this.stateManager.render(dt);
+
+        Curling.batch.begin();
+        int i = 5;
+        for(Texture texture: text.images()) {
+
+            Curling.batch.draw(texture, i, camera.position.y + camera.viewportHeight / 2 - 10, 3, 4);
+            i += 5;
+        }
+        Curling.batch.end();
+
+
+
 
     }
 
