@@ -92,7 +92,7 @@ public class FirstState extends State {
             sprite.setOriginCenter();
             sprite.setRotation((float) (180 * body.getAngle() / Math.PI));
         }
-        if (!isStoneInRange(stones.get(stones.size() - 1)) && !Gdx.input.isTouched()) {
+        if (!isStoneInRange(manager.getCurrentStone()) && !Gdx.input.isTouched()) {
             manager.setRunState();
         }
 //        sprite.setOriginCenter();

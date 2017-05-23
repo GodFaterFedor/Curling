@@ -50,8 +50,8 @@ public class StrikeState extends State {
 
         }
 
-        if (getLastStone().getBody().getPosition().y < Constants.FIELD_HEIGHT - manager.getScreen().getCamera().viewportHeight / 2) {
-            manager.getScreen().getCamera().position.y = getLastStone().getBody().getPosition().y;
+        if (getCurrentStone().getBody().getPosition().y < Constants.FIELD_HEIGHT - manager.getScreen().getCamera().viewportHeight / 2) {
+            manager.getScreen().getCamera().position.y = getCurrentStone().getBody().getPosition().y;
             manager.getScreen().getCamera().update();
         }
 

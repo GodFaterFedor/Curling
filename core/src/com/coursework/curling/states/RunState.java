@@ -58,7 +58,7 @@ class RunState extends State {
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         lastTouchPosition = null;
-        getLastStone().getBody().setLinearDamping(Constants.LINEAR_DAMPING);
+        getCurrentStone().getBody().setLinearDamping(Constants.LINEAR_DAMPING);
 
         return false;
     }
@@ -67,13 +67,13 @@ class RunState extends State {
     public boolean touchDragged(int screenX, int screenY, int pointer) {
 
         Vector3 coordinates = manager.getScreen().getCamera().unproject(new Vector3(screenX, screenY, 0));
-        if ((Math.abs(getLastStone().getBody().getPosition().x - coordinates.x)) < 10 &&
-                coordinates.y - getLastStone().getBody().getPosition().y < 30 &&
-                coordinates.y - getLastStone().getBody().getPosition().y > 0) {
+        if ((Math.abs(getCurrentStone().getBody().getPosition().x - coordinates.x)) < 10 &&
+                coordinates.y - getCurrentStone().getBody().getPosition().y < 30 &&
+                coordinates.y - getCurrentStone().getBody().getPosition().y > 0) {
 
-            getLastStone().getBody().setLinearDamping(0);
+            getCurrentStone().getBody().setLinearDamping(0);
         } else {
-            getLastStone().getBody().setLinearDamping(Constants.LINEAR_DAMPING);
+            getCurrentStone().getBody().setLinearDamping(Constants.LINEAR_DAMPING);
         }
 
             return false;
@@ -94,11 +94,11 @@ class RunState extends State {
             sprite.setRotation((float) (180 * body.getAngle() / Math.PI));
         }
 
-        manager.getScreen().getCamera().position.y = getLastStone().getBody().getPosition().y;
+        manager.getScreen().getCamera().position.y = getCurrentStone().getBody().getPosition().y;
         manager.getScreen().getCamera().update();
 
-        if (!isStoneInRange(getLastStone()) || !isGoodSpeed(getLastStone())) {
-            getLastStone().getBody().setLinearDamping(Constants.LINEAR_DAMPING);
+        if (!isStoneInRange(getCurrentStone()) || !isGoodSpeed(getCurrentStone())) {
+            getCurrentStone().getBody().setLinearDamping(Constants.LINEAR_DAMPING);
             manager.setStrikeState();
         }
 

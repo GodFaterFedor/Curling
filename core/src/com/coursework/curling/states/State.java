@@ -75,7 +75,7 @@ public abstract class State implements InputProcessor, Serializable {
         return false;
     }
 
-    public PhysicalEntity getLastStone() {
-        return manager.getStones().get(manager.getStones().size() - 1);
+    public PhysicalEntity getCurrentStone() {
+        return manager.getCurrentStone();
     }
 }

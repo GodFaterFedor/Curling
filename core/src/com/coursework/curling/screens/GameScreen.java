@@ -70,9 +70,7 @@ public class GameScreen implements Screen {
         this.camera.position.set(this.camera.viewportWidth / 2, 370 + this.camera.viewportHeight / 2,0);
         this.camera.update();
 
-        stateManager = StateManager.getInstance();
-        stateManager.setScreen(this);
-        stateManager.start();
+        stateManager = new StateManager(this);
 
         this.debugRenderer = new Box2DDebugRenderer();
 
@@ -142,28 +140,17 @@ public class GameScreen implements Screen {
         }
         Curling.batch.end();
 
-
-
-
     }
 
     @Override
     public void resize(int width, int height) {
-//        float aspect = (float) width / height;
-//
-//        float cameraWidth = Constants.FIELD_WIDTH;
-//        float cameraHeigth = Constants.FIELD_WIDTH / aspect;
-//
-//
-//        this.camera = new OrthographicCamera(cameraWidth, cameraHeigth);
-//        this.camera.position.set(0,0,0);
-//        this.camera.update();
+
     }
 
     @Override
     public void pause() {
 
-        stateManager.saveToFile();
+        //stateManager.saveToFile();
     }
 
     @Override

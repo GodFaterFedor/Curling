@@ -20,6 +20,7 @@ import com.coursework.curling.Curling;
 import com.coursework.curling.common.Constants;
 import com.coursework.curling.models.Entity;
 import com.coursework.curling.models.PhysicalEntity;
+import com.coursework.curling.models.Player;
 import com.coursework.curling.models.SavedObject;
 import com.coursework.curling.screens.GameScreen;
 
@@ -38,104 +39,111 @@ public class StateManager {
 
     private transient GameScreen screen;
     private State state;
-    private ArrayList<PhysicalEntity> stones;
+    private ArrayList<Player> players;
+    private int nextPlayer = 0;
+    private PhysicalEntity currentStone;
 
-    private StateManager() {
 
-    }
+    public StateManager(GameScreen screen) {
+        this.screen = screen;
+        players = new ArrayList<Player>();
 
-    public void start() {
-        stones = new ArrayList<PhysicalEntity>();
+        int numberOfPlayers = 2;
+
+        ArrayList<String> colors = new ArrayList<String>();
+        colors.add("red");
+        colors.add("yellow");
+
+        for(int i = 0; i < numberOfPlayers; i ++ ) {
+            players.add(new Player(colors.get(i), screen));
+        }
+
         addStone();
+
     }
 
     public void addStone(){
         FirstState state = new FirstState(this);
 //        loadFromFile();
 
+        Player player = players.get((nextPlayer ++) % players.size());
 
-        stones.add(PhysicalEntity.create(22, 450, Constants.STONE_SIZE, Constants.STONE_SIZE, "stone_red.png", screen));
-
-        int last = stones.size() - 1;
-        stones.get(last).getBody().setLinearVelocity(0, 0);
-        stones.get(last).getBody().setTransform(22.5f, 20, 0);
-
-        state.setStone(stones.get(last));
-
+        currentStone = player.addStone();
+        state.setStone(currentStone);
 
         this.state = state;
     }
 
     public void setState(State state){
-        state.setStone(stones.get(stones.size() - 1));
+        state.setStone(getStones().get(getStones().size() - 1));
         this.state = state;
     }
 
-    public static synchronized StateManager getInstance() {
+//    public static synchronized StateManager getInstance() {
+//
+//        if (instance == null) {
+//            instance = new StateManager();
+//        }
+//        return instance;
+//    }
 
-        if (instance == null) {
-            instance = new StateManager();
-        }
-        return instance;
-    }
+//    public void loadFromFile() {
+//        ArrayList<SavedObject> data = new ArrayList<SavedObject>();
+//
+//        try {
+//            String path = Gdx.files.getLocalStoragePath();
+//            File file = new File(path, "/" + "manager.cer");
+//            FileInputStream fileIn = new FileInputStream(file);
+//            ObjectInputStream in = new ObjectInputStream(fileIn);
+//            data = (ArrayList<SavedObject>) in.readObject();
+//            in.close();
+//            fileIn.close();
+//        }catch(IOException i) {
+//            i.printStackTrace();
+//        }catch(ClassNotFoundException c) {
+//            System.out.println("Employee class not found");
+//            c.printStackTrace();
+//        }
+//
+//        ArrayList<PhysicalEntity> stones = new ArrayList<PhysicalEntity>();
+//
+//        for (SavedObject dataObject: data) {
+//
+//            PhysicalEntity stone = PhysicalEntity.create((int)dataObject.x, (int)dataObject.y, Constants.STONE_SIZE, Constants.STONE_SIZE, "stone.png", this.screen);
+//            stone.getBody().setLinearVelocity(dataObject.speedX, dataObject.speedY);
+//            stones.add(stone);
+//        }
+//
+//        this.stones = stones;
+//    }
 
-    public void loadFromFile() {
-        ArrayList<SavedObject> data = new ArrayList<SavedObject>();
-
-        try {
-            String path = Gdx.files.getLocalStoragePath();
-            File file = new File(path, "/" + "manager.cer");
-            FileInputStream fileIn = new FileInputStream(file);
-            ObjectInputStream in = new ObjectInputStream(fileIn);
-            data = (ArrayList<SavedObject>) in.readObject();
-            in.close();
-            fileIn.close();
-        }catch(IOException i) {
-            i.printStackTrace();
-        }catch(ClassNotFoundException c) {
-            System.out.println("Employee class not found");
-            c.printStackTrace();
-        }
-
-        ArrayList<PhysicalEntity> stones = new ArrayList<PhysicalEntity>();
-
-        for (SavedObject dataObject: data) {
-
-            PhysicalEntity stone = PhysicalEntity.create((int)dataObject.x, (int)dataObject.y, Constants.STONE_SIZE, Constants.STONE_SIZE, "stone.png", this.screen);
-            stone.getBody().setLinearVelocity(dataObject.speedX, dataObject.speedY);
-            stones.add(stone);
-        }
-
-        this.stones = stones;
-    }
-
-    public void saveToFile() {
-
-        ArrayList<SavedObject> data = new ArrayList<SavedObject>();
-
-        for (PhysicalEntity stone: stones) {
-
-            SavedObject dataObject = new SavedObject();
-            dataObject.x = stone.getCenterX();
-            dataObject.y = stone.getCenterY();
-            dataObject.speedX = stone.getBody().getLinearVelocity().x;
-            dataObject.speedY = stone.getBody().getLinearVelocity().y;
-            data.add(dataObject);
-        }
-
-        try {
-            String path = Gdx.files.getLocalStoragePath();
-            File file = new File(path, "/" + "manager.cer");
-            FileOutputStream fileOut = new FileOutputStream(file);
-            ObjectOutputStream out = new ObjectOutputStream(fileOut);
-            out.writeObject(data);
-            out.close();
-            fileOut.close();
-
-        }catch(IOException i) {
-            i.printStackTrace();
-        }
-    }
+//    public void saveToFile() {
+//
+//        ArrayList<SavedObject> data = new ArrayList<SavedObject>();
+//
+//        for (PhysicalEntity stone: stones) {
+//
+//            SavedObject dataObject = new SavedObject();
+//            dataObject.x = stone.getCenterX();
+//            dataObject.y = stone.getCenterY();
+//            dataObject.speedX = stone.getBody().getLinearVelocity().x;
+//            dataObject.speedY = stone.getBody().getLinearVelocity().y;
+//            data.add(dataObject);
+//        }
+//
+//        try {
+//            String path = Gdx.files.getLocalStoragePath();
+//            File file = new File(path, "/" + "manager.cer");
+//            FileOutputStream fileOut = new FileOutputStream(file);
+//            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+//            out.writeObject(data);
+//            out.close();
+//            fileOut.close();
+//
+//        }catch(IOException i) {
+//            i.printStackTrace();
+//        }
+//    }
 
     public void render(float dt) {
 
@@ -185,18 +193,22 @@ public class StateManager {
         this.screen = screen;
     }
 
-    public ArrayList<PhysicalEntity> getStones() {
+    public ArrayList<PhysicalEntity> getStones(){
+        ArrayList<PhysicalEntity> stones = new ArrayList<PhysicalEntity>();
+        for (Player player: players) {
+            stones.addAll(player.getStones());
+        }
         return stones;
     }
 
-    public void setStones(ArrayList<PhysicalEntity> stones) {
-        this.stones = stones;
-    }
-
     public int getSpeed() {
-        float x = stones.get(stones.size() - 1).getBody().getLinearVelocity().x;
-        float y = stones.get(stones.size() - 1).getBody().getLinearVelocity().y;
+        float x = getCurrentStone().getBody().getLinearVelocity().x;
+        float y = getCurrentStone().getBody().getLinearVelocity().y;
 
         return (int)Math.sqrt(x*x + y*y);
+    }
+
+    public PhysicalEntity getCurrentStone() {
+        return currentStone;
     }
 }
