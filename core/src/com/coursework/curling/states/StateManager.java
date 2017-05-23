@@ -42,7 +42,7 @@ public class StateManager {
     private ArrayList<Player> players;
     private int nextPlayer = 0;
     private PhysicalEntity currentStone;
-
+    private int numberOfStones = 0;
 
     public StateManager(GameScreen screen) {
         this.screen = screen;
@@ -63,15 +63,17 @@ public class StateManager {
     }
 
     public void addStone(){
-        FirstState state = new FirstState(this);
-//        loadFromFile();
+        if (getStones().size() == players.size())
+            this.state = new WinState(this);
+        else {
+            FirstState state = new FirstState(this);
+            Player player = players.get((nextPlayer++) % players.size());
 
-        Player player = players.get((nextPlayer ++) % players.size());
+            currentStone = player.addStone();
+            state.setStone(currentStone);
 
-        currentStone = player.addStone();
-        state.setStone(currentStone);
-
-        this.state = state;
+            this.state = state;
+        }
     }
 
     public void setState(State state){
@@ -175,6 +177,10 @@ public class StateManager {
 //        }
         state.update(dt);
         state.render(dt);
+    }
+
+    public ArrayList<Player> getPlayers(){
+        return players;
     }
 
     public void setRunState() {

@@ -12,5 +12,4 @@ public final class Constants {
     public static final float MINIMAL_RUN_STATE_SPEED = 10f;
     public static final float FIRST_STATE_BORDER = 70.f;
     public static final float RUN_STATE_BORDER = 390.f;
-
 }

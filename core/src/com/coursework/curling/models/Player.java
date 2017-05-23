@@ -1,5 +1,7 @@
 package com.coursework.curling.models;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.coursework.curling.common.Constants;
 import com.coursework.curling.screens.GameScreen;
 
@@ -10,11 +12,17 @@ public class Player {
     private ArrayList<PhysicalEntity> stones;
     private String color;
     private GameScreen screen;
+    private Texture winLabel;
 
     public Player(String color, GameScreen screen) {
         this.color = color;
+        winLabel = new Texture(color + "_player_wins.png");
         this.screen = screen;
         this.stones = new ArrayList<PhysicalEntity>();
+    }
+
+    public Texture getWinLabel(){
+        return winLabel;
     }
 
     public ArrayList<PhysicalEntity> getStones() {
@@ -24,6 +32,7 @@ public class Player {
     public PhysicalEntity addStone() {
 
         String texture = "stone_" + color + ".png";
+
 
         stones.add(PhysicalEntity.create(22, 450, Constants.STONE_SIZE, Constants.STONE_SIZE, texture, screen));
 
