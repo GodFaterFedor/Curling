@@ -30,7 +30,6 @@ import com.coursework.curling.models.Entity;
 import com.coursework.curling.models.Font;
 import com.coursework.curling.models.PhysicalEntity;
 import com.coursework.curling.models.SavedObject;
-import com.coursework.curling.scenes.Hud;
 import com.coursework.curling.states.StateManager;
 
 import java.io.File;
@@ -49,7 +48,6 @@ public class GameScreen implements Screen {
 
     private World world;
     private Box2DDebugRenderer debugRenderer;
-    private Hud hud;
 
     private StateManager stateManager;
     private OrthographicCamera camera;
@@ -60,7 +58,6 @@ public class GameScreen implements Screen {
         background = new Texture("background.png");
 
         world = new World(new Vector2(0,0), false);
-        hud = new Hud(Curling.batch);
 
         float aspect = (float) Gdx.graphics.getWidth() / Gdx.graphics.getHeight();
         float width = Constants.FIELD_WIDTH;

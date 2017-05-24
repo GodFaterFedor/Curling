@@ -1,0 +1,54 @@
+
+Menu.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+difficulty_label
+  rotate: false
+  xy: 1, 8
+  size: 91, 20
+  orig: 91, 20
+  offset: 0, 0
+  index: -1
+players_label
+  rotate: false
+  xy: 94, 8
+  size: 76, 20
+  orig: 76, 20
+  offset: 0, 0
+  index: -1
+play_button
+  rotate: false
+  xy: 172, 1
+  size: 55, 27
+  orig: 55, 27
+  offset: 0, 0
+  index: -1
+easy_blue_button
+  rotate: false
+  xy: 229, 8
+  size: 46, 20
+  orig: 46, 20
+  offset: 0, 0
+  index: -1
+easy_red_button
+  rotate: false
+  xy: 277, 8
+  size: 46, 20
+  orig: 46, 20
+  offset: 0, 0
+  index: -1
+hard_blue_button
+  rotate: false
+  xy: 325, 12
+  size: 46, 16
+  orig: 46, 16
+  offset: 0, 0
+  index: -1
+hard_red_button
+  rotate: false
+  xy: 373, 12
+  size: 46, 16
+  orig: 46, 16
+  offset: 0, 0
+  index: -1
