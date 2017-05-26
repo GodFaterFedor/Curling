@@ -40,13 +40,10 @@ public class StateManager {
     private ArrayList<Player> players;
     private int nextPlayer = 0;
     private PhysicalEntity currentStone;
-    private int numberOfStones = 0;
 
-    public StateManager(GameScreen screen) {
+    public StateManager(GameScreen screen, int numberOfPlayers) {
         this.screen = screen;
         players = new ArrayList<Player>();
-
-        int numberOfPlayers = 2;
 
         ArrayList<String> colors = new ArrayList<String>();
         colors.add("red");

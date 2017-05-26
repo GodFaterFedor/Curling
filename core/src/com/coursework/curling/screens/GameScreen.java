@@ -1,50 +1,28 @@
 package com.coursework.curling.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.viewport.FillViewport;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import com.coursework.curling.Curling;
 import com.coursework.curling.common.Constants;
-import com.coursework.curling.models.Entity;
 import com.coursework.curling.models.Font;
-import com.coursework.curling.models.PhysicalEntity;
-import com.coursework.curling.models.SavedObject;
 import com.coursework.curling.states.StateManager;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.util.ArrayList;
-
-import javax.naming.Context;
-
-
 public class GameScreen implements Screen {
+
+    public enum Difficulty {
+        Easy,
+        Hard
+    }
 
     private World world;
     private Box2DDebugRenderer debugRenderer;
@@ -52,11 +30,14 @@ public class GameScreen implements Screen {
     private StateManager stateManager;
     private OrthographicCamera camera;
     private Texture background;
-    private boolean isEasy = true;
+    private Difficulty difficulty = Difficulty.Easy;
+    private int numberOfPlayers = 2;
 
-    public GameScreen(boolean isEasy) {
+    public GameScreen(Difficulty difficulty, int numberOfPlayers) {
 
-        this.isEasy = isEasy;
+        this.difficulty = difficulty;
+        this.numberOfPlayers = numberOfPlayers;
+
         background = new Texture("background.png");
 
         world = new World(new Vector2(0,0), false);
@@ -69,7 +50,7 @@ public class GameScreen implements Screen {
         this.camera.position.set(this.camera.viewportWidth / 2, 370 + this.camera.viewportHeight / 2,0);
         this.camera.update();
 
-        stateManager = new StateManager(this);
+        stateManager = new StateManager(this, numberOfPlayers);
 
         this.debugRenderer = new Box2DDebugRenderer();
 
@@ -129,7 +110,7 @@ public class GameScreen implements Screen {
         Curling.batch.end();
 
         this.stateManager.render(dt);
-        if (isEasy) {
+        if (difficulty == Difficulty.Easy) {
             Curling.batch.begin();
             int i = 5;
             for(Texture texture: text.images()) {
@@ -143,8 +124,12 @@ public class GameScreen implements Screen {
 
     }
 
-    public boolean isEasy() {
-        return isEasy;
+    public Difficulty getDifficulty() {
+        return difficulty;
+    }
+
+    public int  getNumberOfPlayers() {
+        return numberOfPlayers;
     }
 
     @Override

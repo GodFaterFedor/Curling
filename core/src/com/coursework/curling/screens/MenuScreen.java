@@ -43,6 +43,8 @@ public class MenuScreen implements Screen {
     private OrthographicCamera camera;
 
     private ButtonGroup<ImageButton> difficultyGroup;
+    private ButtonGroup<ImageButton> numberOfPlayersGroup;
+
 
     @Override
     public void show() {
@@ -78,15 +80,10 @@ public class MenuScreen implements Screen {
         addButton("players_label", "players_label", 10, 4, null).expandX().left().pad(15,2,1,0);
         table.row();
         table.add();
-        addButton("players_label", "players_label", 5, 4, new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.log("lol", difficultyGroup.getChecked().toString());
-            }
-        }).pad(0,0,1,0);
-        addButton("players_label", "players_label", 5, 4, null).pad(0,0,1,0);
-        addButton("players_label", "players_label", 5, 4, null).pad(0,0,1,0);
-        addButton("players_label", "players_label", 5, 4, null).pad(0,0,1,2);
+        ImageButton onePlayerButton = addButton("easy_blue_button", "easy_red_button", 5, 4, null).pad(0,0,1,0).getActor();
+        ImageButton twoPlayerButton = addButton("easy_blue_button", "easy_red_button", 5, 4, null).pad(0,0,1,0).getActor();
+        ImageButton threePlayerButton = addButton("easy_blue_button", "easy_red_button", 5, 4, null).pad(0,0,1,0).getActor();
+        ImageButton fourPlayerButton = addButton("easy_blue_button", "easy_red_button", 5, 4, null).pad(0,0,1,2).getActor();
 
 
         table.row();
@@ -100,21 +97,33 @@ public class MenuScreen implements Screen {
         addButton("play_button", "play_button", 10, 5, new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((Game)Gdx.app.getApplicationListener()).setScreen(new GameScreen(easyButton.isChecked()));
+                GameScreen.Difficulty difficulty = easyButton.isChecked() ? GameScreen.Difficulty.Easy: GameScreen.Difficulty.Hard;
+                int numberOfPlayers = numberOfPlayersGroup.getCheckedIndex() + 1;
+                startGame(difficulty, numberOfPlayers);
             }
         }).colspan(5).expandY().bottom().pad(0,0,5,0);
 
 
         stage.addActor(table);
 
-        difficultyGroup = new ButtonGroup(easyButton, hardButton);
+        difficultyGroup = new ButtonGroup<ImageButton>(easyButton, hardButton);
         difficultyGroup.setMaxCheckCount(1);
         difficultyGroup.setMinCheckCount(1);
         difficultyGroup.setUncheckLast(true);
-
         easyButton.setChecked(true);
 
+        numberOfPlayersGroup = new ButtonGroup<ImageButton>(onePlayerButton, twoPlayerButton, threePlayerButton, fourPlayerButton);
+        numberOfPlayersGroup.setMaxCheckCount(1);
+        numberOfPlayersGroup.setMinCheckCount(1);
+        numberOfPlayersGroup.setUncheckLast(true);
+        twoPlayerButton.setChecked(true);
+
         Gdx.input.setInputProcessor(stage);
+    }
+
+    private void startGame(GameScreen.Difficulty difficulty, int numberOfPlayers) {
+
+        ((Game)Gdx.app.getApplicationListener()).setScreen(new GameScreen(difficulty, numberOfPlayers));
     }
 
     @Override

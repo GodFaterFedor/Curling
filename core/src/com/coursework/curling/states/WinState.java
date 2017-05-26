@@ -95,7 +95,7 @@ public class WinState extends State {
         return false;
     }
     private void repeatButtonTap() {
-        ((Game)Gdx.app.getApplicationListener()).setScreen(new GameScreen(manager.getScreen().isEasy()));
+        ((Game)Gdx.app.getApplicationListener()).setScreen(new GameScreen(manager.getScreen().getDifficulty(), manager.getScreen().getNumberOfPlayers()));
     }
 
     private void menuButtonTap() {
