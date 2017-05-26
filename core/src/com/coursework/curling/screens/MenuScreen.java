@@ -13,6 +13,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -41,6 +42,7 @@ public class MenuScreen implements Screen {
     private Texture background;
     private OrthographicCamera camera;
 
+    private ButtonGroup<ImageButton> difficultyGroup;
 
     @Override
     public void show() {
@@ -76,7 +78,12 @@ public class MenuScreen implements Screen {
         addButton("players_label", "players_label", 10, 4, null).expandX().left().pad(15,2,1,0);
         table.row();
         table.add();
-        addButton("players_label", "players_label", 5, 4, null).pad(0,0,1,0);
+        addButton("players_label", "players_label", 5, 4, new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.log("lol", difficultyGroup.getChecked().toString());
+            }
+        }).pad(0,0,1,0);
         addButton("players_label", "players_label", 5, 4, null).pad(0,0,1,0);
         addButton("players_label", "players_label", 5, 4, null).pad(0,0,1,0);
         addButton("players_label", "players_label", 5, 4, null).pad(0,0,1,2);
@@ -86,19 +93,26 @@ public class MenuScreen implements Screen {
         addButton("difficulty_label", "difficulty_label", 14, 4, null).expandX().left().pad(0,2,1,0);
         table.row();
         table.add();
-        addButton("easy_blue_button", "easy_red_button", 8, 4, null).colspan(2);
-        addButton("hard_blue_button", "hard_red_button", 8, 4, null).colspan(2).pad(0,0,0,2);
+        final ImageButton easyButton = addButton("easy_blue_button", "easy_red_button", 8, 4, null).colspan(2).getActor();
+        ImageButton hardButton = addButton("hard_blue_button", "hard_red_button", 8, 4, null).colspan(2).pad(0,0,0,2).getActor();
 
         table.row();
         addButton("play_button", "play_button", 10, 5, new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((Game)Gdx.app.getApplicationListener()).setScreen(new GameScreen());
+                ((Game)Gdx.app.getApplicationListener()).setScreen(new GameScreen(easyButton.isChecked()));
             }
         }).colspan(5).expandY().bottom().pad(0,0,5,0);
 
 
         stage.addActor(table);
+
+        difficultyGroup = new ButtonGroup(easyButton, hardButton);
+        difficultyGroup.setMaxCheckCount(1);
+        difficultyGroup.setMinCheckCount(1);
+        difficultyGroup.setUncheckLast(true);
+
+        easyButton.setChecked(true);
 
         Gdx.input.setInputProcessor(stage);
     }
@@ -128,7 +142,8 @@ public class MenuScreen implements Screen {
 
         ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
         style.up = skin.getDrawable(normal);
-        style.down = skin.getDrawable(selected);
+        style.checked = skin.getDrawable(selected);
+
 
         ImageButton button = new ImageButton(style);
 

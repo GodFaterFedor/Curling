@@ -52,9 +52,11 @@ public class GameScreen implements Screen {
     private StateManager stateManager;
     private OrthographicCamera camera;
     private Texture background;
+    private boolean isEasy = true;
 
-    public GameScreen() {
+    public GameScreen(boolean isEasy) {
 
+        this.isEasy = isEasy;
         background = new Texture("background.png");
 
         world = new World(new Vector2(0,0), false);
@@ -127,16 +129,22 @@ public class GameScreen implements Screen {
         Curling.batch.end();
 
         this.stateManager.render(dt);
+        if (isEasy) {
+            Curling.batch.begin();
+            int i = 5;
+            for(Texture texture: text.images()) {
 
-        Curling.batch.begin();
-        int i = 5;
-        for(Texture texture: text.images()) {
-
-            Curling.batch.draw(texture, i, camera.position.y + camera.viewportHeight / 2 - 10, 3, 4);
-            i += 5;
+                Curling.batch.draw(texture, i, camera.position.y + camera.viewportHeight / 2 - 10, 3, 4);
+                i += 5;
+            }
+            Curling.batch.end();
         }
-        Curling.batch.end();
 
+
+    }
+
+    public boolean isEasy() {
+        return isEasy;
     }
 
     @Override
