@@ -90,7 +90,12 @@ public class MenuScreen implements Screen {
         addButton("hard_blue_button", "hard_red_button", 8, 4, null).colspan(2).pad(0,0,0,2);
 
         table.row();
-        addButton("play_button", "play_button", 10, 5, null).colspan(5).expandY().bottom().pad(0,0,5,0);
+        addButton("play_button", "play_button", 10, 5, new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ((Game)Gdx.app.getApplicationListener()).setScreen(new GameScreen());
+            }
+        }).colspan(5).expandY().bottom().pad(0,0,5,0);
 
 
         stage.addActor(table);

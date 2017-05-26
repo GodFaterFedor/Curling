@@ -71,7 +71,7 @@ class RunState extends State {
                 coordinates.y - getCurrentStone().getBody().getPosition().y < 30 &&
                 coordinates.y - getCurrentStone().getBody().getPosition().y > 0) {
 
-            getCurrentStone().getBody().setLinearDamping(0);
+            getCurrentStone().getBody().setLinearDamping(0.05f);
         } else {
             getCurrentStone().getBody().setLinearDamping(Constants.LINEAR_DAMPING);
         }

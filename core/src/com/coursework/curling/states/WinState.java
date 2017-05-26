@@ -3,8 +3,10 @@ package com.coursework.curling.states;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.coursework.curling.Curling;
+import com.coursework.curling.common.Constants;
 import com.coursework.curling.models.PhysicalEntity;
 import com.coursework.curling.models.Player;
 
@@ -12,15 +14,13 @@ import java.util.ArrayList;
 
 public class WinState extends State {
 
-    private Vector2 center = new Vector2(22.5f, 450 - 36f);
+    private Vector2 center = new Vector2(22.2f, 450 - 36.5f);
     private Player winner;
     public WinState(StateManager manager) {
         super(manager);
         Gdx.input.setInputProcessor(this);
         winner = defineWinner();
     }
-
-
 
     private Player defineWinner(){
         Player Winner = null;
@@ -60,8 +60,13 @@ public class WinState extends State {
 //            s.getSprite().draw(Curling.batch);
 //
 //        }
-        if (winner != null)
-            Curling.batch.draw(winner.getWinLabel(), manager.getScreen().getCamera().position.x - 10, manager.getScreen().getCamera().position.y - 5, 20, 10);
+
+        if (winner != null) {
+            Vector3 cameraPosition = manager.getScreen().getCamera().position;
+            float width = Constants.FIELD_WIDTH * 0.8f;
+            float heigth = winner.getWinLabel().getHeight() / (float)winner.getWinLabel().getWidth() * width;
+            Curling.batch.draw(winner.getWinLabel(), cameraPosition.x - width / 2, cameraPosition.y - heigth / 2, width, heigth);
+        }
         Curling.batch.end();
     }
 }

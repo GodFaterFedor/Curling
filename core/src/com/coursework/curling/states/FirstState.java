@@ -24,7 +24,6 @@ public class FirstState extends State {
     public FirstState(StateManager manager) {
         super(manager);
         Gdx.input.setInputProcessor(this);
-
         //stone = PhysicalEntity.create(100, 100, Constants.STONE_SIZE, Constants.STONE_SIZE, "stone.png", manager.getScreen());
         manager.getScreen().getCamera().position.set(manager.getScreen().getCamera().viewportWidth / 2, manager.getScreen().getCamera().viewportHeight / 2,0);
         manager.getScreen().getCamera().update();

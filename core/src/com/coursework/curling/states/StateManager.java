@@ -35,8 +35,6 @@ import java.util.ArrayList;
 
 public class StateManager {
 
-    private static StateManager instance;
-
     private transient GameScreen screen;
     private State state;
     private ArrayList<Player> players;
@@ -53,6 +51,9 @@ public class StateManager {
         ArrayList<String> colors = new ArrayList<String>();
         colors.add("red");
         colors.add("yellow");
+        colors.add("green");
+        colors.add("blue");
+
 
         for(int i = 0; i < numberOfPlayers; i ++ ) {
             players.add(new Player(colors.get(i), screen));
@@ -63,7 +64,7 @@ public class StateManager {
     }
 
     public void addStone(){
-        if (getStones().size() == players.size())
+        if (getStones().size() == players.size() * Constants.STONES_PER_PLAYER)
             this.state = new WinState(this);
         else {
             FirstState state = new FirstState(this);
@@ -81,100 +82,9 @@ public class StateManager {
         this.state = state;
     }
 
-//    public static synchronized StateManager getInstance() {
-//
-//        if (instance == null) {
-//            instance = new StateManager();
-//        }
-//        return instance;
-//    }
-
-//    public void loadFromFile() {
-//        ArrayList<SavedObject> data = new ArrayList<SavedObject>();
-//
-//        try {
-//            String path = Gdx.files.getLocalStoragePath();
-//            File file = new File(path, "/" + "manager.cer");
-//            FileInputStream fileIn = new FileInputStream(file);
-//            ObjectInputStream in = new ObjectInputStream(fileIn);
-//            data = (ArrayList<SavedObject>) in.readObject();
-//            in.close();
-//            fileIn.close();
-//        }catch(IOException i) {
-//            i.printStackTrace();
-//        }catch(ClassNotFoundException c) {
-//            System.out.println("Employee class not found");
-//            c.printStackTrace();
-//        }
-//
-//        ArrayList<PhysicalEntity> stones = new ArrayList<PhysicalEntity>();
-//
-//        for (SavedObject dataObject: data) {
-//
-//            PhysicalEntity stone = PhysicalEntity.create((int)dataObject.x, (int)dataObject.y, Constants.STONE_SIZE, Constants.STONE_SIZE, "stone.png", this.screen);
-//            stone.getBody().setLinearVelocity(dataObject.speedX, dataObject.speedY);
-//            stones.add(stone);
-//        }
-//
-//        this.stones = stones;
-//    }
-
-//    public void saveToFile() {
-//
-//        ArrayList<SavedObject> data = new ArrayList<SavedObject>();
-//
-//        for (PhysicalEntity stone: stones) {
-//
-//            SavedObject dataObject = new SavedObject();
-//            dataObject.x = stone.getCenterX();
-//            dataObject.y = stone.getCenterY();
-//            dataObject.speedX = stone.getBody().getLinearVelocity().x;
-//            dataObject.speedY = stone.getBody().getLinearVelocity().y;
-//            data.add(dataObject);
-//        }
-//
-//        try {
-//            String path = Gdx.files.getLocalStoragePath();
-//            File file = new File(path, "/" + "manager.cer");
-//            FileOutputStream fileOut = new FileOutputStream(file);
-//            ObjectOutputStream out = new ObjectOutputStream(fileOut);
-//            out.writeObject(data);
-//            out.close();
-//            fileOut.close();
-//
-//        }catch(IOException i) {
-//            i.printStackTrace();
-//        }
-//    }
 
     public void render(float dt) {
 
-//        for (int i = 0; i < stones.size(); i ++) {
-//            PhysicalEntity stone = stones.get(i);
-//            if (stone.getBody() == null) {
-//                PhysicalEntity entity = PhysicalEntity.create((int)stone.getX(), (int)stone.getY(), stone.getWidth(), stone.getHeight(), "stone.png", screen);
-//                stones.remove(i);
-//                stones.add(i, entity);
-//            }
-//        }
-//        for (PhysicalEntity entity: stones) {
-//            if (entity.getSprite() == null) {
-//                entity.setSprite(new Sprite(new Texture("stone.png")));
-//            }
-//
-//            if (entity.getBody() == null) {
-//                entity = PhysicalEntity.create((int)entity.getX(), (int)entity.getY(), entity.getWidth(), entity.getHeight(), "stone.png", screen);
-//            }
-//        }
-//        if ((stones.get(stones.size() - 1).getBody().getPosition().y < 380) && (stones.get(stones.size() - 1).getBody().getPosition().y > 40) && (this.state.getName() != "run")) {
-//            this.setState(new RunState(this));
-//        }
-//        if ((stones.get(stones.size() - 1).getBody().getPosition().y < 40 && (stones.get(stones.size() - 1).getBody().getPosition().y > 0) && (this.state.getName() != "strike"))){
-//            this.setState(new StrikeState(this));
-//        }
-//        if (stones.get(stones.size() - 1).getBody().getLinearVelocity().epsilonEquals(0f, 0f, 1f) && (this.state.getName() != "first")) {
-//            addStone();
-//        }
         state.update(dt);
         state.render(dt);
     }
@@ -193,10 +103,6 @@ public class StateManager {
 
     public GameScreen getScreen() {
         return screen;
-    }
-
-    public void setScreen(GameScreen screen) {
-        this.screen = screen;
     }
 
     public ArrayList<PhysicalEntity> getStones(){
