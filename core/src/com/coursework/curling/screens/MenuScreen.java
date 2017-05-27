@@ -77,24 +77,24 @@ public class MenuScreen implements Screen {
 
         table.row().fillX();
 
-        addButton("players_label", "players_label", 10, 4, null).expandX().left().pad(15,2,1,0);
+        addButton("players_label", "players_label", 12, 4, null).expandX().left().pad(15,2,1,0);
         table.row();
         table.add();
-        ImageButton onePlayerButton = addButton("easy_blue_button", "easy_red_button", 5, 4, null).pad(0,0,1,0).getActor();
-        ImageButton twoPlayerButton = addButton("easy_blue_button", "easy_red_button", 5, 4, null).pad(0,0,1,0).getActor();
-        ImageButton threePlayerButton = addButton("easy_blue_button", "easy_red_button", 5, 4, null).pad(0,0,1,0).getActor();
-        ImageButton fourPlayerButton = addButton("easy_blue_button", "easy_red_button", 5, 4, null).pad(0,0,1,2).getActor();
+        ImageButton onePlayerButton = addButton("1_blue", "1_red", 2, 4, null).pad(0,1,1,1).getActor();
+        ImageButton twoPlayerButton = addButton("2_blue", "2_red", 3, 4, null).pad(0,1,1,1).getActor();
+        ImageButton threePlayerButton = addButton("3_blue", "3_red", 3, 4, null).pad(0,1,1,1).getActor();
+        ImageButton fourPlayerButton = addButton("4_blue", "4_red", 3, 4, null).pad(0,1,1,2).getActor();
 
 
         table.row();
-        addButton("difficulty_label", "difficulty_label", 14, 4, null).expandX().left().pad(0,2,1,0);
+        addButton("difficulty_label", "difficulty_label", 16, 4, null).expandX().left().pad(0,2,1,0);
         table.row();
         table.add();
-        final ImageButton easyButton = addButton("easy_blue_button", "easy_red_button", 8, 4, null).colspan(2).getActor();
-        ImageButton hardButton = addButton("hard_blue_button", "hard_red_button", 8, 4, null).colspan(2).pad(0,0,0,2).getActor();
+        final ImageButton easyButton = addButton("easy_blue_button", "easy_red_button", 8, 4, null).colspan(2).pad(0,1,0,1).getActor();
+        ImageButton hardButton = addButton("hard_blue_button", "hard_red_button", 8, 4, null).colspan(2).pad(0,1,0,2).getActor();
 
         table.row();
-        addButton("play_button", "play_button", 10, 5, new ClickListener() {
+        addButton("play_blue_button", "play_red_button", 10, 5, new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 GameScreen.Difficulty difficulty = easyButton.isChecked() ? GameScreen.Difficulty.Easy: GameScreen.Difficulty.Hard;
@@ -138,7 +138,7 @@ public class MenuScreen implements Screen {
         Curling.batch.draw(background, 0, 0, Constants.FIELD_WIDTH, Constants.FIELD_WIDTH * 3);
         Curling.batch.end();
 
-        stage.setDebugAll(true);
+        //stage.setDebugAll(true);
         stage.draw();
     }
 

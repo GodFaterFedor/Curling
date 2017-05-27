@@ -1,54 +1,131 @@
 
-Menu.png
+menu.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+menu_background
+  rotate: false
+  xy: 1, 280
+  size: 221, 662
+  orig: 221, 662
+  offset: 0, 0
+  index: -1
 difficulty_label
   rotate: false
-  xy: 1, 8
-  size: 91, 20
-  orig: 91, 20
+  xy: 1, 247
+  size: 145, 31
+  orig: 145, 31
   offset: 0, 0
   index: -1
 players_label
   rotate: false
-  xy: 94, 8
-  size: 76, 20
-  orig: 76, 20
-  offset: 0, 0
-  index: -1
-play_button
-  rotate: false
-  xy: 172, 1
-  size: 55, 27
-  orig: 55, 27
+  xy: 1, 214
+  size: 121, 31
+  orig: 121, 31
   offset: 0, 0
   index: -1
 easy_blue_button
   rotate: false
-  xy: 229, 8
-  size: 46, 20
-  orig: 46, 20
+  xy: 148, 248
+  size: 72, 30
+  orig: 72, 30
   offset: 0, 0
   index: -1
 easy_red_button
   rotate: false
-  xy: 277, 8
-  size: 46, 20
-  orig: 46, 20
+  xy: 1, 182
+  size: 72, 30
+  orig: 72, 30
   offset: 0, 0
   index: -1
 hard_blue_button
   rotate: false
-  xy: 325, 12
-  size: 46, 16
-  orig: 46, 16
+  xy: 1, 155
+  size: 73, 25
+  orig: 73, 25
   offset: 0, 0
   index: -1
 hard_red_button
   rotate: false
-  xy: 373, 12
-  size: 46, 16
-  orig: 46, 16
+  xy: 1, 128
+  size: 73, 25
+  orig: 73, 25
+  offset: 0, 0
+  index: -1
+play_blue_button
+  rotate: false
+  xy: 1, 95
+  size: 63, 31
+  orig: 63, 31
+  offset: 0, 0
+  index: -1
+play_red_button
+  rotate: false
+  xy: 1, 62
+  size: 63, 31
+  orig: 63, 31
+  offset: 0, 0
+  index: -1
+play_button
+  rotate: false
+  xy: 1, 33
+  size: 55, 27
+  orig: 55, 27
+  offset: 0, 0
+  index: -1
+4_blue
+  rotate: false
+  xy: 75, 182
+  size: 24, 30
+  orig: 24, 30
+  offset: 0, 0
+  index: -1
+4_red
+  rotate: false
+  xy: 224, 912
+  size: 24, 30
+  orig: 24, 30
+  offset: 0, 0
+  index: -1
+3_blue
+  rotate: false
+  xy: 124, 215
+  size: 21, 30
+  orig: 21, 30
+  offset: 0, 0
+  index: -1
+3_red
+  rotate: false
+  xy: 1, 1
+  size: 21, 30
+  orig: 21, 30
+  offset: 0, 0
+  index: -1
+2_blue
+  rotate: false
+  xy: 76, 151
+  size: 21, 29
+  orig: 21, 29
+  offset: 0, 0
+  index: -1
+2_red
+  rotate: false
+  xy: 101, 183
+  size: 21, 29
+  orig: 21, 29
+  offset: 0, 0
+  index: -1
+1_blue
+  rotate: false
+  xy: 224, 880
+  size: 15, 30
+  orig: 15, 30
+  offset: 0, 0
+  index: -1
+1_red
+  rotate: false
+  xy: 124, 183
+  size: 15, 30
+  orig: 15, 30
   offset: 0, 0
   index: -1
