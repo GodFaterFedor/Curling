@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class Player {
 
     private ArrayList<PhysicalEntity> stones;
-    private String color;
+    public String color;
     private GameScreen screen;
     private Texture winLabel;
 

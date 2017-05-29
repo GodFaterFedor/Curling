@@ -27,18 +27,21 @@ public class WinState extends State {
     }
 
     private Player defineWinner(){
-        Player Winner = null;
-        float minDistance = manager.getPlayers().get(0).getStones().get(0).getBody().getPosition().len2();
+        PhysicalEntity first = manager.getPlayers().get(0).getStones().get(0);
+        Player winner = manager.getPlayers().get(0);
+        float minDistance = (float)Math.sqrt((Math.pow(center.x - first.getX(), 2) + Math.pow(center.y - first.getY(), 2)));
         float distance = 0f;
         for (Player player : manager.getPlayers()){
-            for (PhysicalEntity stone: player.getStones())
-                distance = (float)Math.sqrt((Math.pow(center.x - stone.getX(), 2) + Math.pow(center.y - stone.getY(), 2)));
-                if (minDistance > distance){
+            for (PhysicalEntity stone: player.getStones()) {
+                distance = (float) Math.sqrt((Math.pow(center.x - stone.getX(), 2) + Math.pow(center.y - stone.getY(), 2)));
+                if (minDistance > distance) {
                     minDistance = distance;
-                    Winner = player;
+                    winner = player;
                 }
+                Gdx.app.log("kek", player.color + ' ' + distance);
+            }
         }
-        return Winner;
+        return winner;
     }
     @Override
     public void update(float dt) {
@@ -64,13 +67,16 @@ public class WinState extends State {
 //            s.getSprite().draw(Curling.batch);
 //
 //        }
-
+        for (PhysicalEntity s: manager.getStones()) {
+            s.getSprite().draw(Curling.batch);
+        }
         if (winner != null) {
             Vector3 cameraPosition = manager.getScreen().getCamera().position;
             float width = Constants.FIELD_WIDTH * 0.8f;
             float heigth = winner.getWinLabel().getHeight() / (float)winner.getWinLabel().getWidth() * width;
             Curling.batch.draw(winner.getWinLabel(), cameraPosition.x - width / 2, cameraPosition.y - heigth / 2, width, heigth);
         }
+
         Curling.batch.end();
     }
 

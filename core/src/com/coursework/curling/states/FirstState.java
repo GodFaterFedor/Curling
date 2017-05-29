@@ -81,9 +81,8 @@ public class FirstState extends State {
     @Override
     public void update(float dt) {
 
-        ArrayList<PhysicalEntity> stones = manager.getStones();
         deltaTime = dt;
-        for (PhysicalEntity stone: stones) {
+        for (PhysicalEntity stone: manager.getStones()) {
             Body body = stone.getBody();
             Sprite sprite = stone.getSprite();
 
