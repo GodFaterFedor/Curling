@@ -56,6 +56,7 @@ public class StrikeState extends State {
         }
 
         if (stopped) {
+            Gdx.input.setInputProcessor(null);
             manager.addStone();
         }
 
@@ -65,12 +66,9 @@ public class StrikeState extends State {
 
     @Override
     public void render(float dt) {
-
-        Curling.batch.begin();
         for (PhysicalEntity s: manager.getStones()) {
             s.getSprite().draw(Curling.batch);
         }
-        Curling.batch.end();
     }
 
     public void setStone(PhysicalEntity stone) {

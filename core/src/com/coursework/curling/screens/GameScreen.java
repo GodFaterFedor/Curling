@@ -2,6 +2,7 @@ package com.coursework.curling.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -107,11 +108,11 @@ public class GameScreen implements Screen {
 
         Curling.batch.begin();
         Curling.batch.draw(background, 0, 0, Constants.FIELD_WIDTH, Constants.FIELD_HEIGHT);
-        Curling.batch.end();
+
 
         this.stateManager.render(dt);
         if (difficulty == Difficulty.Easy) {
-            Curling.batch.begin();
+
             int i = 5;
             for(Texture texture: text.images()) {
 

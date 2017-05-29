@@ -42,29 +42,30 @@ public class FirstState extends State {
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
+        if (velocity != null) {
+            Vector3 coordinates = manager.getScreen().getCamera().unproject(new Vector3(screenX, screenY, 0));
 
-        Vector3 coordinates = manager.getScreen().getCamera().unproject(new Vector3(screenX, screenY, 0));
+            float deltaX = (coordinates.x - stone.getCenterX()) / deltaTime;
+            float deltaY = (coordinates.y - stone.getCenterY()) / deltaTime;
 
-        float deltaX = (coordinates.x - stone.getCenterX()) / deltaTime;
-        float deltaY = (coordinates.y - stone.getCenterY()) / deltaTime;
+            velocity.x = deltaX * Constants.SPEED_MULTIPLIER;
+            velocity.y = deltaY * Constants.SPEED_MULTIPLIER;
 
-        velocity.x = deltaX * Constants.SPEED_MULTIPLIER;
-        velocity.y = deltaY * Constants.SPEED_MULTIPLIER;
-
-        stone.getBody().setLinearVelocity(0, 0);
-        stone.getBody().setTransform(coordinates.x, coordinates.y, stone.getBody().getAngle());
-
+            stone.getBody().setLinearVelocity(0, 0);
+            stone.getBody().setTransform(coordinates.x, coordinates.y, stone.getBody().getAngle());
+        }
         return super.touchDragged(screenX, screenY, pointer);
+
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        if (velocity != null) {
+            Vector3 coordinates = manager.getScreen().getCamera().unproject(new Vector3(screenX, screenY, 0));
 
-        Vector3 coordinates = manager.getScreen().getCamera().unproject(new Vector3(screenX, screenY, 0));
-
-        stone.getBody().setLinearVelocity(velocity.x, velocity.y);
-        //stone.getBody().applyForce(-deltaX * 40, -deltaY * 40, stone.getCenterX(), stone.getCenterY(), false);
-
+            stone.getBody().setLinearVelocity(velocity.x, velocity.y);
+            //stone.getBody().applyForce(-deltaX * 40, -deltaY * 40, stone.getCenterX(), stone.getCenterY(), false);
+        }
         return super.touchUp(screenX, screenY, pointer, button);
     }
 
@@ -99,12 +100,9 @@ public class FirstState extends State {
 
     @Override
     public void render(float dt) {
-
-        Curling.batch.begin();
         for (PhysicalEntity s: manager.getStones()) {
             s.getSprite().draw(Curling.batch);
         }
-        Curling.batch.end();
     }
 
     public void setStone(PhysicalEntity stone) {

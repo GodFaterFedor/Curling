@@ -97,7 +97,8 @@ class RunState extends State {
         manager.getScreen().getCamera().position.y = getCurrentStone().getBody().getPosition().y;
         manager.getScreen().getCamera().update();
 
-        if (!isStoneInRange(getCurrentStone()) || !isGoodSpeed(getCurrentStone())) {
+        if ((!isStoneInRange(getCurrentStone()) || !isGoodSpeed(getCurrentStone()))) {
+            Gdx.input.setInputProcessor(null);
             getCurrentStone().getBody().setLinearDamping(Constants.LINEAR_DAMPING);
             manager.setStrikeState();
         }
@@ -106,12 +107,9 @@ class RunState extends State {
 
     @Override
     public void render(float dt) {
-
-        Curling.batch.begin();
         for (PhysicalEntity s: manager.getStones()) {
             s.getSprite().draw(Curling.batch);
         }
-        Curling.batch.end();
     }
 
     public void setStone(PhysicalEntity stone) {
