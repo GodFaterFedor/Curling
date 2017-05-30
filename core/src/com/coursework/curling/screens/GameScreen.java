@@ -138,9 +138,8 @@ public class GameScreen implements Screen {
                 Curling.batch.draw(texture, i, camera.position.y + camera.viewportHeight / 2 - 10, 3, 4);
                 i += 5;
             }
-            Curling.batch.end();
         }
-
+        Curling.batch.end();
 
     }
 
