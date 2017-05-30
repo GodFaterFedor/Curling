@@ -39,7 +39,9 @@ public class PauseState extends State {
         Vector3 cameraPosition = manager.getScreen().getCamera().position;
         float width = Constants.FIELD_WIDTH * 0.8f;
         float heigth = manager.getPauseTexture().getHeight() / (float)manager.getPauseTexture().getWidth() * width;
-
+        for (PhysicalEntity s: manager.getStones()) {
+            s.getSprite().draw(Curling.batch);
+        }
         Curling.batch.draw(manager.getPauseTexture(), cameraPosition.x - width / 2, cameraPosition.y - heigth / 2, width, heigth);
 
     }
