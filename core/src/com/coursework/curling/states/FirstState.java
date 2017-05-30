@@ -3,6 +3,7 @@ package com.coursework.curling.states;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -37,6 +38,10 @@ public class FirstState extends State {
         velocity = new Vector3(0, 0, 0);
 
         stone.getBody().setTransform(coordinates.x, coordinates.y, stone.getBody().getAngle());
+
+        if (pauseButtonRect.contains(screenX, screenY)) {
+            pauseButton();
+        }
         return super.touchDown(screenX, screenY, pointer, button);
     }
 
@@ -63,15 +68,15 @@ public class FirstState extends State {
         if (velocity != null) {
             Vector3 coordinates = manager.getScreen().getCamera().unproject(new Vector3(screenX, screenY, 0));
 
-            stone.getBody().setLinearVelocity(velocity.x, velocity.y);
+            stone.getBody().setLinearVelocity(velocity.x * 2, velocity.y * 2);
             //stone.getBody().applyForce(-deltaX * 40, -deltaY * 40, stone.getCenterX(), stone.getCenterY(), false);
+
         }
         return super.touchUp(screenX, screenY, pointer, button);
     }
 
-    @Override
-    public String getName(){
-        return "first";
+    private void pauseButton() {
+        manager.addState(new PauseState(manager));
     }
 
     private boolean isStoneInRange(PhysicalEntity stone) {

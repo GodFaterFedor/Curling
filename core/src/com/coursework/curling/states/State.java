@@ -2,9 +2,11 @@ package com.coursework.curling.states;
 
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.World;
 import com.coursework.curling.Curling;
 import com.coursework.curling.models.PhysicalEntity;
@@ -16,11 +18,19 @@ import java.util.ArrayList;
 public abstract class State implements InputProcessor, Serializable {
 
     protected StateManager manager;
-
+    protected Rectangle pauseButtonRect;
     public abstract void update(float dt);
     public abstract void render(float dt);
 
     public  State(StateManager manager) {
+        float width = Gdx.graphics.getWidth() / 5;
+        float heigth = Gdx.graphics.getHeight() / 10;
+        float firstX = Gdx.graphics.getWidth() - width;
+        float firstY = Gdx.graphics.getHeight() / 40;
+        Gdx.app.log("firstX", " " + firstX);
+        Gdx.app.log("firstY", " " + firstY);
+
+        this.pauseButtonRect = new Rectangle(firstX, firstY, width, heigth);
         this.manager = manager;
     }
 
@@ -28,9 +38,6 @@ public abstract class State implements InputProcessor, Serializable {
 
     }
 
-    public String getName(){
-        return "state";
-    }
 
     public void setStone(PhysicalEntity stone) {
     }

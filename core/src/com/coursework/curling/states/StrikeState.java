@@ -30,7 +30,18 @@ public class StrikeState extends State {
         //stone = PhysicalEntity.create(100, 100, Constants.STONE_SIZE, Constants.STONE_SIZE, "stone.png", manager.getScreen());
     }
 
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 
+        if (pauseButtonRect.contains(screenX, screenY)) {
+            pauseButton();
+        }
+        return false;
+    }
+
+    private void pauseButton() {
+        manager.addState(new PauseState(manager));
+    }
 
     @Override
     public void update(float dt) {
@@ -74,9 +85,4 @@ public class StrikeState extends State {
     public void setStone(PhysicalEntity stone) {
         this.stone = stone;
     }
-    @Override
-    public String getName(){
-        return "strike";
-    }
-
 }

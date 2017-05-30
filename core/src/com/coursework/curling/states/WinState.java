@@ -20,6 +20,7 @@ public class WinState extends State {
 
     private Vector2 center = new Vector2(22.2f, 450 - 36.5f);
     private Player winner;
+
     public WinState(StateManager manager) {
         super(manager);
         Gdx.input.setInputProcessor(this);
@@ -62,7 +63,7 @@ public class WinState extends State {
 
     @Override
     public void render(float dt) {
-        Curling.batch.begin();
+
 //        for (PhysicalEntity s: manager.getStones()) {
 //            s.getSprite().draw(Curling.batch);
 //
@@ -76,8 +77,6 @@ public class WinState extends State {
             float heigth = winner.getWinLabel().getHeight() / (float)winner.getWinLabel().getWidth() * width;
             Curling.batch.draw(winner.getWinLabel(), cameraPosition.x - width / 2, cameraPosition.y - heigth / 2, width, heigth);
         }
-
-        Curling.batch.end();
     }
 
     @Override

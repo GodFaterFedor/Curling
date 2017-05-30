@@ -7,7 +7,9 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
@@ -117,6 +119,8 @@ public class MenuScreen implements Screen {
 
     @Override
     public void render(float delta) {
+
+
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -124,7 +128,10 @@ public class MenuScreen implements Screen {
         Curling.batch.setProjectionMatrix(camera.combined);
 
         Curling.batch.begin();
+
+
         Curling.batch.draw(background, 0, 0, Constants.FIELD_WIDTH, Constants.FIELD_WIDTH * 3);
+
         Curling.batch.end();
 
         //stage.setDebugAll(true);

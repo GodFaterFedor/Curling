@@ -2,10 +2,13 @@ package com.coursework.curling.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -16,7 +19,9 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.coursework.curling.Curling;
 import com.coursework.curling.common.Constants;
 import com.coursework.curling.models.Font;
+import com.coursework.curling.states.PauseState;
 import com.coursework.curling.states.StateManager;
+import com.coursework.curling.states.WinState;
 
 public class GameScreen implements Screen {
 
@@ -28,14 +33,22 @@ public class GameScreen implements Screen {
     private World world;
     private Box2DDebugRenderer debugRenderer;
 
+    private boolean isSleep = false;
     private StateManager stateManager;
     private OrthographicCamera camera;
     private Texture background;
     private Difficulty difficulty = Difficulty.Easy;
     private int numberOfPlayers = 2;
+    private Texture buttonPause;
+    BitmapFont font12;
 
     public GameScreen(Difficulty difficulty, int numberOfPlayers) {
-
+//        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("font/Amble-Regular.ttf"));
+//        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+//        parameter.size = 8;
+//        parameter.color = Color.BLACK;
+//        font12 = generator.generateFont(parameter); // font size 12 pixels
+        buttonPause = new Texture("pause_button.png");
         this.difficulty = difficulty;
         this.numberOfPlayers = numberOfPlayers;
 
@@ -60,6 +73,10 @@ public class GameScreen implements Screen {
         addBorder(0, -10, Constants.FIELD_WIDTH, 10);
         addBorder(0, Constants.FIELD_HEIGHT + 10, Constants.FIELD_WIDTH, 10);
 
+    }
+
+    public void isSleep(boolean value){
+        isSleep = value;
     }
 
     public void addBorder(float x, float y, float width, float heigth) {
@@ -98,8 +115,8 @@ public class GameScreen implements Screen {
     public void render(float dt) {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        world.step(dt, 8, 3);
+        if (!isSleep)
+            world.step(dt, 8, 3);
         debugRenderer.render(world, camera.combined);
         Curling.batch.setProjectionMatrix(camera.combined);
 
@@ -108,9 +125,11 @@ public class GameScreen implements Screen {
 
         Curling.batch.begin();
         Curling.batch.draw(background, 0, 0, Constants.FIELD_WIDTH, Constants.FIELD_HEIGHT);
-
+//        font12.draw(Curling.batch, "Hello World!", 0, 20);
 
         this.stateManager.render(dt);
+        if ((stateManager.getState().getClass() != PauseState.class) || (stateManager.getState().getClass() != WinState.class))
+            Curling.batch.draw(buttonPause, 39, camera.position.y + camera.viewportHeight / 2 - 6, 5, 5);
         if (difficulty == Difficulty.Easy) {
 
             int i = 5;

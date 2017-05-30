@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -33,10 +34,7 @@ class RunState extends State {
         Gdx.input.setInputProcessor(this);
     }
 
-    @Override
-    public String getName(){
-        return "run";
-    }
+
 
     private boolean isStoneInRange(PhysicalEntity stone) {
 
@@ -52,6 +50,13 @@ class RunState extends State {
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         Vector3 coordinates = manager.getScreen().getCamera().unproject(new Vector3(screenX, screenY, 0));
         lastTouchPosition = coordinates;
+        Gdx.app.log("screenX", " " + screenX);
+        Gdx.app.log("screenY", " " + screenY);
+        Gdx.app.log("screenY", pauseButtonRect.toString());
+
+        if (pauseButtonRect.contains(screenX, screenY)) {
+            pauseButton();
+        }
         return false;
     }
 
@@ -59,8 +64,11 @@ class RunState extends State {
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         lastTouchPosition = null;
         getCurrentStone().getBody().setLinearDamping(Constants.LINEAR_DAMPING);
-
         return false;
+    }
+
+    private void pauseButton() {
+        manager.addState(new PauseState(manager));
     }
 
     @Override

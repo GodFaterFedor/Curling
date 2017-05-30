@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -23,6 +24,7 @@ import com.coursework.curling.models.PhysicalEntity;
 import com.coursework.curling.models.Player;
 import com.coursework.curling.models.SavedObject;
 import com.coursework.curling.screens.GameScreen;
+import com.sun.corba.se.impl.orb.ParserTable;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -32,17 +34,27 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Stack;
 
 public class StateManager {
 
     private transient GameScreen screen;
-    private State state;
+    private Stack<State> states;
     private ArrayList<Player> players;
     private int nextPlayer = 0;
     private PhysicalEntity currentStone;
+    private Texture pauseTexture;
+    private Texture buttonTexture;
+
+    Texture getPauseTexture(){
+        return pauseTexture;
+    }
 
     public StateManager(GameScreen screen, int numberOfPlayers) {
         this.screen = screen;
+        this.states = new Stack<State>();
+        pauseTexture = new Texture("pause_screen.png");
+
         players = new ArrayList<Player>();
 
         ArrayList<String> colors = new ArrayList<String>();
@@ -61,8 +73,10 @@ public class StateManager {
     }
 
     public void addStone(){
+        if (!this.states.empty())
+            this.states.pop();
         if (getStones().size() == players.size() * Constants.STONES_PER_PLAYER)
-            this.state = new WinState(this);
+            this.states.push(new WinState(this));
         else {
             FirstState state = new FirstState(this);
             Player player = players.get((nextPlayer++) % players.size());
@@ -70,20 +84,31 @@ public class StateManager {
             currentStone = player.addStone();
             state.setStone(currentStone);
 
-            this.state = state;
+            this.states.push(state);
         }
     }
 
-    public void setState(State state){
-        state.setStone(getStones().get(getStones().size() - 1));
-        this.state = state;
+    public void addState(State state){
+        this.states.push(state);
     }
 
+    public void deleteState(){
+        this.states.pop();
+        Gdx.input.setInputProcessor(states.peek());
+    }
+
+    public void setState(State state){
+        this.states.pop();
+        state.setStone(getStones().get(getStones().size() - 1));
+        this.states.push(state);
+    }
+    public State getState(){
+        return this.states.peek();
+    }
 
     public void render(float dt) {
-
-        state.update(dt);
-        state.render(dt);
+        states.peek().update(dt);
+        states.peek().render(dt);
     }
 
     public ArrayList<Player> getPlayers(){
