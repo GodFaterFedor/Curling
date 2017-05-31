@@ -180,6 +180,10 @@ public class StateManager {
         return winner.getColor();
     }
 
+    public Texture getWinnerTexture() {
+        return winner.getTexture();
+    }
+
     public PhysicalEntity getCurrentStone() {
         return currentStone;
     }

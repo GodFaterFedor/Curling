@@ -140,7 +140,10 @@ public class MenuScreen implements Screen {
 
     @Override
     public void dispose() {
+
         stage.dispose();
+        background.dispose();
+        atlas.dispose();
     }
 
     private Cell<ImageButton> addButton(String normal, String selected, float width, float height, ClickListener listener) {

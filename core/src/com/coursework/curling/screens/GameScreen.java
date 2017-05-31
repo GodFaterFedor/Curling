@@ -23,6 +23,8 @@ import com.coursework.curling.states.PauseState;
 import com.coursework.curling.states.StateManager;
 import com.coursework.curling.states.WinState;
 
+import java.util.ArrayList;
+
 public class GameScreen implements Screen {
 
     public enum Difficulty {
@@ -43,8 +45,6 @@ public class GameScreen implements Screen {
     private Texture speedLabel;
     private Texture bestLabel;
 
-    BitmapFont font12;
-
     public GameScreen(Difficulty difficulty, int numberOfPlayers) {
 //        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("font/Amble-Regular.ttf"));
 //        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
@@ -54,7 +54,6 @@ public class GameScreen implements Screen {
         buttonPause = new Texture("pause_button.png");
         speedLabel = new Texture("speed_label.png");
         bestLabel = new Texture("best_label.png");
-
 
         this.difficulty = difficulty;
         this.numberOfPlayers = numberOfPlayers;
@@ -81,6 +80,7 @@ public class GameScreen implements Screen {
         addBorder(0, Constants.FIELD_HEIGHT + 10, Constants.FIELD_WIDTH, 10);
 
     }
+
 
     public void isSleep(boolean value){
         isSleep = value;
@@ -135,7 +135,7 @@ public class GameScreen implements Screen {
         this.stateManager.render(dt);
         // Draw pause button
         if ((stateManager.getState().getClass() != PauseState.class) && (stateManager.getState().getClass() != WinState.class)) {
-            Curling.batch.draw(buttonPause, 39, camera.position.y + camera.viewportHeight / 2 - 6, 5, 5);
+            Curling.batch.draw(buttonPause, 38, camera.position.y + camera.viewportHeight / 2 - 8, 5, 5);
         }
 
         // Draw best label
@@ -146,36 +146,40 @@ public class GameScreen implements Screen {
         if (score == Constants.MAX_INT) {
             Curling.batch.draw(new Texture("0_blue.png"), 13, camera.position.y + camera.viewportHeight / 2 - 7, 2, 3);
         } else {
-            Font bestText = new Font(score);
+//            if (bestFont != null) {
+//                bestFont.dispose();
+//            }
+            Font font = new Font(score);
             int i = 13;
-            for(Texture texture: bestText.images()) {
+            for(Texture texture: font.images()) {
 
                 Curling.batch.draw(texture, i, camera.position.y + camera.viewportHeight / 2 - 7, 2, 3);
                 i += 4;
             }
             String winnerTexture = "stone_" + stateManager.getWinnerColor() + ".png";
-            Curling.batch.draw(new Texture(winnerTexture), i, camera.position.y + camera.viewportHeight / 2 - 7, 3, 3);
+            Curling.batch.draw(stateManager.getWinnerTexture(), i, camera.position.y + camera.viewportHeight / 2 - 7, 3, 3);
 
         }
 
 
         if (difficulty == Difficulty.Easy) {
 
-            Font speedText = new Font(stateManager.getSpeed());
+//            if (speedFont != null) {
+//                speedFont.dispose();
+//            }
+            Font font = new Font(stateManager.getSpeed());
 
             // Draw speed label
             Curling.batch.draw(speedLabel, 3, camera.position.y + camera.viewportHeight / 2 - 13, 10, 4);
 
             int j = 15;
-            for(Texture texture: speedText.images()) {
+            for(Texture texture: font.images()) {
 
                 Curling.batch.draw(texture, j, camera.position.y + camera.viewportHeight / 2 - 12, 2, 3);
                 j += 4;
             }
+
         }
-
-
-
 
         Curling.batch.end();
 
@@ -212,6 +216,9 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        buttonPause.dispose();
+        speedLabel.dispose();
+        bestLabel.dispose();
+        background.dispose();
     }
 }

@@ -27,8 +27,6 @@ public abstract class State implements InputProcessor, Serializable {
         float heigth = Gdx.graphics.getHeight() / 10;
         float firstX = Gdx.graphics.getWidth() - width;
         float firstY = Gdx.graphics.getHeight() / 40;
-        Gdx.app.log("firstX", " " + firstX);
-        Gdx.app.log("firstY", " " + firstY);
 
         this.pauseButtonRect = new Rectangle(firstX, firstY, width, heigth);
         this.manager = manager;

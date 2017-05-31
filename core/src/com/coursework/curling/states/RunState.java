@@ -50,9 +50,6 @@ class RunState extends State {
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         Vector3 coordinates = manager.getScreen().getCamera().unproject(new Vector3(screenX, screenY, 0));
         lastTouchPosition = coordinates;
-        Gdx.app.log("screenX", " " + screenX);
-        Gdx.app.log("screenY", " " + screenY);
-        Gdx.app.log("screenY", pauseButtonRect.toString());
 
         if (pauseButtonRect.contains(screenX, screenY)) {
             pauseButton();

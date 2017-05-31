@@ -13,6 +13,7 @@ public class Player {
     private String color;
     private GameScreen screen;
     private Texture winLabel;
+    private Texture texture;
     private int score = Constants.MAX_INT;
 
     public Player(String color, GameScreen screen) {
@@ -24,6 +25,9 @@ public class Player {
 
     public Texture getWinLabel(){
         return winLabel;
+    }
+    public Texture getTexture(){
+        return texture;
     }
 
     public ArrayList<PhysicalEntity> getStones() {
@@ -40,7 +44,7 @@ public class Player {
         int last = stones.size() - 1;
         stones.get(last).getBody().setLinearVelocity(0, 0);
         stones.get(last).getBody().setTransform(22.5f, 20, 0);
-
+        this.texture = stones.get(last).sprite.getTexture();
         return stones.get(last);
     }
     public void setScore(int score) {

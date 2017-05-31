@@ -13,6 +13,8 @@ public class Font {
         this.number = number;
     }
 
+    private ArrayList<Texture> images = null;
+
     public ArrayList<Texture> images() {
 
         ArrayList<Texture> digits = new ArrayList<Texture>();
@@ -25,7 +27,14 @@ public class Font {
         }
 
         Collections.reverse(digits);
+        images = digits;
         return digits;
 
+    }
+
+    public void dispose(){
+        for (Texture image: images){
+            image.dispose();
+        }
     }
 }
