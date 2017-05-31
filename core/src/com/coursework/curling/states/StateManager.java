@@ -44,7 +44,7 @@ public class StateManager {
     private int nextPlayer = 0;
     private PhysicalEntity currentStone;
     private Texture pauseTexture;
-    private Texture buttonTexture;
+    private Player winner;
 
     Texture getPauseTexture(){
         return pauseTexture;
@@ -68,16 +68,21 @@ public class StateManager {
             players.add(new Player(colors.get(i), screen));
         }
 
-        addStone();
+        newRound();
 
+    }
+    public void newRound() {
+        winner = calculateWinner();
+        addStone();
     }
 
     public void addStone(){
-        if (!this.states.empty())
+        if (!this.states.empty()) {
             this.states.pop();
-        if (getStones().size() == players.size() * Constants.STONES_PER_PLAYER)
-            this.states.push(new WinState(this));
-        else {
+        }
+        if (getStones().size() == players.size() * Constants.STONES_PER_PLAYER) {
+            this.states.push(new WinState(this, winner));
+        } else {
             FirstState state = new FirstState(this);
             Player player = players.get((nextPlayer++) % players.size());
 
@@ -86,6 +91,28 @@ public class StateManager {
 
             this.states.push(state);
         }
+    }
+
+    private Player calculateWinner(){
+        if (players.size() < 1 || players.get(0).getStones().size() < 1) {
+            return null;
+        }
+        PhysicalEntity first = players.get(0).getStones().get(0);
+        Player winner = players.get(0);
+        float minDistance = (float)Math.sqrt((Math.pow(Constants.target.x - first.getX(), 2) + Math.pow(Constants.target.y - first.getY(), 2)));
+        float distance = 0f;
+        for (Player player : players){
+            player.setScore(Constants.MAX_INT);
+            for (PhysicalEntity stone: player.getStones()) {
+                distance = (float) Math.sqrt((Math.pow(Constants.target.x - stone.getX(), 2) + Math.pow(Constants.target.y - stone.getY(), 2)));
+                player.setScore((int)Math.min(player.getScore(), distance));
+                if (minDistance > distance) {
+                    minDistance = distance;
+                    winner = player;
+                }
+            }
+        }
+        return winner;
     }
 
     public void addState(State state){
@@ -140,6 +167,17 @@ public class StateManager {
         float y = getCurrentStone().getBody().getLinearVelocity().y;
 
         return (int)Math.sqrt(x*x + y*y);
+    }
+
+    public int getScore() {
+        if (winner == null) {
+            return Constants.MAX_INT;
+        }
+        return winner.getScore();
+    }
+
+    public String getWinnerColor() {
+        return winner.getColor();
     }
 
     public PhysicalEntity getCurrentStone() {

@@ -40,6 +40,9 @@ public class GameScreen implements Screen {
     private Difficulty difficulty = Difficulty.Easy;
     private int numberOfPlayers = 2;
     private Texture buttonPause;
+    private Texture speedLabel;
+    private Texture bestLabel;
+
     BitmapFont font12;
 
     public GameScreen(Difficulty difficulty, int numberOfPlayers) {
@@ -49,6 +52,10 @@ public class GameScreen implements Screen {
 //        parameter.color = Color.BLACK;
 //        font12 = generator.generateFont(parameter); // font size 12 pixels
         buttonPause = new Texture("pause_button.png");
+        speedLabel = new Texture("speed_label.png");
+        bestLabel = new Texture("best_label.png");
+
+
         this.difficulty = difficulty;
         this.numberOfPlayers = numberOfPlayers;
 
@@ -115,30 +122,61 @@ public class GameScreen implements Screen {
     public void render(float dt) {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        if (!isSleep)
+        if (!isSleep) {
             world.step(dt, 8, 3);
+        }
         debugRenderer.render(world, camera.combined);
         Curling.batch.setProjectionMatrix(camera.combined);
-
-        Font text = new Font(stateManager.getSpeed());
-
 
         Curling.batch.begin();
         Curling.batch.draw(background, 0, 0, Constants.FIELD_WIDTH, Constants.FIELD_HEIGHT);
 //        font12.draw(Curling.batch, "Hello World!", 0, 20);
 
         this.stateManager.render(dt);
-        if ((stateManager.getState().getClass() != PauseState.class) || (stateManager.getState().getClass() != WinState.class))
+        // Draw pause button
+        if ((stateManager.getState().getClass() != PauseState.class) && (stateManager.getState().getClass() != WinState.class)) {
             Curling.batch.draw(buttonPause, 39, camera.position.y + camera.viewportHeight / 2 - 6, 5, 5);
+        }
+
+        // Draw best label
+        Curling.batch.draw(bestLabel, 3, camera.position.y + camera.viewportHeight / 2 - 7, 8, 3);
+
+        int score = stateManager.getScore();
+
+        if (score == Constants.MAX_INT) {
+            Curling.batch.draw(new Texture("0_blue.png"), 13, camera.position.y + camera.viewportHeight / 2 - 7, 2, 3);
+        } else {
+            Font bestText = new Font(score);
+            int i = 13;
+            for(Texture texture: bestText.images()) {
+
+                Curling.batch.draw(texture, i, camera.position.y + camera.viewportHeight / 2 - 7, 2, 3);
+                i += 4;
+            }
+            String winnerTexture = "stone_" + stateManager.getWinnerColor() + ".png";
+            Curling.batch.draw(new Texture(winnerTexture), i, camera.position.y + camera.viewportHeight / 2 - 7, 3, 3);
+
+        }
+
+
         if (difficulty == Difficulty.Easy) {
 
-            int i = 5;
-            for(Texture texture: text.images()) {
+            Font speedText = new Font(stateManager.getSpeed());
 
-                Curling.batch.draw(texture, i, camera.position.y + camera.viewportHeight / 2 - 10, 3, 4);
-                i += 5;
+            // Draw speed label
+            Curling.batch.draw(speedLabel, 3, camera.position.y + camera.viewportHeight / 2 - 13, 10, 4);
+
+            int j = 15;
+            for(Texture texture: speedText.images()) {
+
+                Curling.batch.draw(texture, j, camera.position.y + camera.viewportHeight / 2 - 12, 2, 3);
+                j += 4;
             }
         }
+
+
+
+
         Curling.batch.end();
 
     }

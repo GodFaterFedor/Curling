@@ -10,9 +10,10 @@ import java.util.ArrayList;
 public class Player {
 
     private ArrayList<PhysicalEntity> stones;
-    public String color;
+    private String color;
     private GameScreen screen;
     private Texture winLabel;
+    private int score = Constants.MAX_INT;
 
     public Player(String color, GameScreen screen) {
         this.color = color;
@@ -41,5 +42,16 @@ public class Player {
         stones.get(last).getBody().setTransform(22.5f, 20, 0);
 
         return stones.get(last);
+    }
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public String getColor() {
+        return color;
     }
 }

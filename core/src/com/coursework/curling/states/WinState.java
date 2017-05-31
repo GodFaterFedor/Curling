@@ -2,10 +2,12 @@ package com.coursework.curling.states;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Net;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.net.HttpRequestBuilder;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.coursework.curling.Curling;
 import com.coursework.curling.common.Constants;
@@ -14,6 +16,11 @@ import com.coursework.curling.models.Player;
 import com.coursework.curling.screens.GameScreen;
 import com.coursework.curling.screens.MenuScreen;
 
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class WinState extends State {
@@ -21,29 +28,13 @@ public class WinState extends State {
     private Vector2 center = new Vector2(22.2f, 450 - 36.5f);
     private Player winner;
 
-    public WinState(StateManager manager) {
+    public WinState(StateManager manager, Player winner) {
         super(manager);
         Gdx.input.setInputProcessor(this);
-        winner = defineWinner();
+        this.winner = winner;
+        saveData();
     }
 
-    private Player defineWinner(){
-        PhysicalEntity first = manager.getPlayers().get(0).getStones().get(0);
-        Player winner = manager.getPlayers().get(0);
-        float minDistance = (float)Math.sqrt((Math.pow(center.x - first.getX(), 2) + Math.pow(center.y - first.getY(), 2)));
-        float distance = 0f;
-        for (Player player : manager.getPlayers()){
-            for (PhysicalEntity stone: player.getStones()) {
-                distance = (float) Math.sqrt((Math.pow(center.x - stone.getX(), 2) + Math.pow(center.y - stone.getY(), 2)));
-                if (minDistance > distance) {
-                    minDistance = distance;
-                    winner = player;
-                }
-                Gdx.app.log("kek", player.color + ' ' + distance);
-            }
-        }
-        return winner;
-    }
     @Override
     public void update(float dt) {
 
@@ -99,6 +90,34 @@ public class WinState extends State {
 
         return false;
     }
+
+    private void saveData() {
+        String urlString = "http://10.0.2.2:8000/save/";
+        String data = "{\"color\": " + winner.getColor() +", \"score\":" + winner.getScore() + "}";
+
+        HttpRequestBuilder requestBuilder = new HttpRequestBuilder();
+        Net.HttpRequest request = requestBuilder.newRequest().method(Net.HttpMethods.POST).url(urlString).content(data).header("Content-Type", "application/json").build();
+        Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
+            @Override
+            public void handleHttpResponse(Net.HttpResponse httpResponse) {
+                Gdx.app.log("good", httpResponse.toString());
+            }
+
+            @Override
+            public void failed(Throwable t) {
+                Gdx.app.log("fail", t.toString());
+
+            }
+
+            @Override
+            public void cancelled() {
+                Gdx.app.log("cancel", "cancel");
+
+            }
+        });
+
+    }
+
     private void repeatButtonTap() {
         ((Game)Gdx.app.getApplicationListener()).setScreen(new GameScreen(manager.getScreen().getDifficulty(), manager.getScreen().getNumberOfPlayers()));
     }

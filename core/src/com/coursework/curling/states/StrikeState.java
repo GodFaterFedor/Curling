@@ -68,7 +68,7 @@ public class StrikeState extends State {
 
         if (stopped) {
             Gdx.input.setInputProcessor(null);
-            manager.addStone();
+            manager.newRound();
         }
 
 //        sprite.setOriginCenter();
